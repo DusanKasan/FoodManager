@@ -1,0 +1,105 @@
+{block content}
+{var $inside_ingredients = FALSE}
+
+{form editFoodForm}
+<table>
+{foreach $form->components as $key => $value}
+	{if $key != 'ingredients'}
+		<tr>
+			<th>{label $key/}</th>
+			<td>{input $key}</td>
+		</tr>
+	{elseif $key == 'ingredients'}
+		{formContainer $key}
+			{foreach $value->components as $ingredient => $value}
+				{formContainer $ingredient}
+					{if $iterator->first}
+						<tr>
+						<th>{label ingredient/}</th>
+						<td class="ingredients">
+					{/if}
+					
+					{input ingredient}
+					{input amount}
+					
+					{if $iterator->last}
+						</td>
+						</tr>
+					{/if}
+					
+				{/formContainer}
+			{/foreach}
+		{/formContainer}
+	{/if}
+{/foreach}
+
+</table>
+{/form}
+
+<script type="text/javascript">
+	$('textarea.ingredient-input').attr("onFocus","lastAddIngredient(this)");
+
+	var ingredient_input_clone = $('textarea.ingredient-input:first-of-type').clone().html('');
+	var ingredient_input_html = ingredient_input_clone.wrap('<div>').parent().html();
+	var amount_input_clone = $('input.amount-input:first-of-type').clone(true).removeAttr("value");
+	var amount_input_html = amount_input_clone.wrap('<div>').parent().html();
+	var cloned_html = ingredient_input_html + amount_input_html;
+	
+	cloned_html = cloned_html.replace(/1/g, ':placeholder:');
+	cloned_html = cloned_html.replace(/:placeholder:/, '1');
+	
+	$(document).ready(function() {			
+		$('.ingredient-input')
+			.textext({
+				plugins : 'autocomplete ajax arrow',
+				ajax : {
+					url : '/ingredients/?do=ajax',
+					dataType : 'json',
+					cacheResults : true
+				}
+			});
+	});
+	
+	$('.tags-input')
+			.textext({
+				plugins : 'autocomplete ajax tags arrow',
+				ajax : {
+					url : '/tags/?do=ajax',
+					dataType : 'json',
+					cacheResults : true
+				},
+				tagsItems: {!$tags_string}
+			})
+		;
+	
+	function addIngredient()
+	{		
+		$('.ingredient-input:last-of-type').parent().parent().parent()
+			.append(cloned_html.replace(/:placeholder:/g, $('textarea.ingredient-input').length + 1));
+		
+		 $('.ingredient-input:last-of-type').last()
+        .textext({
+            plugins : 'autocomplete ajax arrow',
+            ajax : {
+                url : '/ingredients/?do=ajax',
+                dataType : 'json',
+                cacheResults : true
+            }
+        });
+	}
+	
+	function lastAddIngredient(element)
+	{
+		if (element == $('.ingredient-input:last-of-type').last()[0]) {
+			addIngredient();
+		}
+	}
+	
+</script>
+{/block}
+
+
+{block head}
+	<script src="{$basePath}/js/textext.js"></script>
+	<script src="{$basePath}/js/diacriticsRemover.js"></script>
+{/block}

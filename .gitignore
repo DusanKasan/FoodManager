@@ -1,0 +1,5 @@
+/nbproject
+/www/uploads/*
+/log/*
+/temp/*
+/app/config/config.neon

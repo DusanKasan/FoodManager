@@ -1,0 +1,206 @@
+form{
+	margin-top: 20px;
+}
+
+.form-big{
+	margin-top: 20px;
+}
+
+form>table{
+	margin-left: auto;
+	margin-right: auto;
+}
+
+form#search-form{
+	margin-top: 0;
+}
+
+table#foods-list{
+	width: 100%;
+}
+
+.round-marker{
+	border-radius: 4px;
+	background-color: #CCC;
+	color: black;
+	padding: 1px 3px;
+}
+
+table#foods-list tbody tr:hover{
+	background: #eee;
+}
+
+input.amount-input[type=text]{
+	width: 20%;
+	float:right;
+}
+
+textarea.ingredient-input {
+	min-height: 0;
+	float:left;
+	width: 100% !important;
+	background-color: white;
+	font-family: inherit;
+	border: 1px solid #cccccc  !important;
+	-webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1)  !important;
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1)  !important;
+	color: rgba(0, 0, 0, 0.75)  !important;
+	display: block;
+	font-size: 0.875em  !important;
+	margin: 0 0 1em 0;
+	padding: 0.5em;
+	height: 100% !important;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	-webkit-transition: all 0.15s linear;
+	-moz-transition: all 0.15s linear;
+	transition: all 0.15s linear;
+	line-height: 20px !important;
+}
+
+div.text-arrow {
+	height: 25px !important;
+}
+
+div.text-core {
+	width: 100%;
+	float:left;
+}
+
+td.ingredients {
+	width: 350px;
+}
+
+td.ingredients div.text-core {
+	height: 2em !important;
+	margin: 0 0 1em 0;
+	width: 78%;
+	float:left;
+}
+
+
+div.text-core .text-wrap {
+	width: 100% !important;
+	height: 100% !important;
+}
+
+div.ingredient-input-div {
+	float:left;
+}
+
+textarea.tags-input {
+	width: 100% !important;
+}
+
+#ingredients-list ul {
+	list-style-position: inside;
+}
+
+#images {
+	margin-right: 20px;
+}
+
+.small-images img{
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.food-headline {
+	background-color: #DDD;
+	margin-bottom: 10px !important;
+	padding-top: 3px !important;
+}
+
+.paginator {
+	background-color: #DDD !important;
+}
+
+.paginator i {
+	font-weight: bolder;
+}
+
+.food-headline .action {
+	float: right;
+	margin-left: 12px; 
+}
+
+.header-form {
+	background-color: #111111;
+}
+
+.clearing-feature li {
+	display: none;
+}
+
+.clearing-feature li.clearing-featured-img {
+	display: block;
+}
+
+textarea[name=description] {
+	height: 8em;
+}
+
+@media all and (min-width: 60em) {
+  .clearing-thumbs {
+    padding-right: 15px;
+  }
+}
+
+/*------------Small screens-----------------*/
+@media all and (max-width: 60em) {
+	td.ingredients {
+		width: 100%;
+	}
+	
+	.form-big{
+		margin-top: 0;
+		min-height: 100%;
+	}
+}
+
+#content-container {
+	margin-bottom: 1em;
+}
+
+input[type=file] {
+	width: 200px;
+}
+
+.submit-search {
+	border: none;
+	border-bottom: 1px solid #2284a1;
+}
+
+th>label {
+	display: inline-block;
+}
+
+/*.indented {
+	display: inline-block;
+	margin-left: 10px !important;
+}
+
+.disc.indented {
+	display: block;
+	list-style-position: inside;
+}*/
+
+/*
+.orbit-bullets {
+	display: none;
+}
+
+.orbit-container>a, .orbit-container .orbit-slide-number, .orbit-container .orbit-timer {
+	filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+	opacity: 0; 
+	-webkit-transition: opacity 400ms; 
+	-moz-transition: opacity 400ms; 
+	-o-transition: opacity 400ms; 
+	transition: opacity 400ms; 
+}
+
+.orbit-container:hover>a, .orbit-container:hover .orbit-slide-number, .orbit-container:hover .orbit-timer {
+	filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100); 
+	opacity: 1; 
+}*/

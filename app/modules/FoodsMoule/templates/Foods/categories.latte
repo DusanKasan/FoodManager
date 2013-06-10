@@ -1,0 +1,30 @@
+{block content}
+
+<table id="foods-list">
+	<thead>
+		<th>
+			Category
+		</th>
+		<th>
+			Number of foods
+		</th>
+	</thead>
+{foreach $categories as $category}
+	<tr>
+		<td>
+			<a n:href="Foods:list tags => $category->id_tag" class="food-link">{ucfirst($category->tag)}</a>
+		</td>
+		
+		<td>
+			{$category->number_of_foods}
+		</td>
+	</tr>
+{/foreach}
+
+</table>
+{/block}
+
+
+{block head}
+
+{/block}

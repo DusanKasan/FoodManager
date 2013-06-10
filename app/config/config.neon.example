@@ -1,0 +1,44 @@
+#
+# SECURITY WARNING: it is CRITICAL that this file & directory are NOT accessible directly via a web browser!
+#
+# If you don't protect this directory from direct web access, anybody will be able to see your passwords.
+# http://nette.org/security-warning
+#
+common:
+	parameters:
+
+	php:
+		date.timezone: Europe/Prague
+		# zlib.output_compression: yes
+
+	nette:
+		application:
+			errorPresenter: Error
+
+		database:
+			dsn: DSN
+			user: USER
+			password: PASS
+			reflection: Nette\Database\Reflection\DiscoveredReflection
+
+		session:
+			expiration: 14 days
+
+
+	services:
+		database: @\Nette\Database\Connection
+		logger: \Logger\FileLogger
+		authenticator: \Authenticator
+		authorizator: \Authorizator
+		uploader: \Uploader
+		users_model: \UsersModule\UsersModel
+		ingredients_model: \FoodsModule\IngredientsModel
+		foods_model: \FoodsModule\FoodsModel
+		tags_model: \FoodsModule\TagsModel
+
+	factories:
+
+
+production < common:
+
+development < common:

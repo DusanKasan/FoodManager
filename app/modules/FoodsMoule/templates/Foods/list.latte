@@ -1,0 +1,52 @@
+{block content}
+
+<table id="foods-list">
+	<thead>
+		<th>
+			<a n:href="this order_by => food">Food</a>
+		</th>
+		<th>
+			<a n:href="this order_by => id_user">User</a>
+		</th>
+		<th>
+			Tags
+		</th>
+	</thead>
+	{foreach $foods as $food}
+	<tr>
+		<td>
+			<a n:href="Foods:show $food->id_food" class="food-link">{ucfirst($food->food)}</a>
+		</td>
+		<td>
+			{$food->user->username}
+		</td>
+		<td>
+			{foreach $food->related('tags') as $tag}
+				<a n:href="Foods:list tags => $tag->id_tag" class="round-marker">{$tag->tag->tag}</a>
+			{/foreach}
+		</td>
+	</tr>
+	{/foreach}
+	
+	<tr class="paginator">
+		<td colspan="3">
+			{if $current_page-1 > 0}
+				<a href="{$current_url}&page={$prev_page}"><i class="icon-angle-left"></i></a>
+			{/if}
+			
+			{foreach $neighbor_pages as $page_number}
+				<a href="{$current_url}&page={$page_number}">{$page_number}</a>
+			{/foreach}
+			
+			{if $current_page+1 <= intval($page_count)}
+				<a href="{$current_url}&page={$next_page}"><i class="icon-angle-right"></i></a>
+			{/if}
+		</td>
+	</tr>
+</table>
+{/block}
+
+
+{block head}
+
+{/block}

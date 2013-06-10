@@ -1,0 +1,75 @@
+{block content}
+
+{control createFoodForm}
+<script type="text/javascript">
+	var clone = '';
+	
+	$(document).ready(function() {
+		var amount_input_prototype = '<input class="amount-input" name="amounts[]" type="text" placeholder="amount">'
+		$('textarea.ingredient-input').after(amount_input_prototype);
+		$('textarea.ingredient-input').parent().addClass("ingredients");
+		$('textarea.ingredient-input').attr("onFocus","lastAddIngredient(this, clone)");
+		clone = $('textarea.ingredient-input').parent()[0].innerHTML;
+		
+//		var more_ingredients_button = '<input class="button" type="button" onclick="addIngredient(clone)" value="test"/>'
+//		$('td.ingredients').append(more_ingredients_button);
+
+		$('.ingredient-input')
+			.textext({
+				plugins : 'autocomplete ajax arrow',
+				ajax : {
+					url : '/ingredients/?do=ajax',
+					dataType : 'json',
+					cacheResults : true
+				}
+			})
+		;
+		$('textarea.ingredient-input')[0].name = "ingredients[]";
+		
+		$("td.ingredients div input").prop('disabled', true);
+	});
+	
+	$('.tags-input')
+			.textext({
+				plugins : 'autocomplete ajax tags arrow',
+				ajax : {
+					url : '/tags/?do=ajax',
+					dataType : 'json',
+					cacheResults : true
+				}
+			})
+		;
+	
+	function addIngredient(clone)
+	{
+		 $('.ingredient-input:last-of-type').parent().parent().parent().append(clone);
+		
+		 $('.ingredient-input:last-of-type').last()
+        .textext({
+            plugins : 'autocomplete ajax arrow',
+            ajax : {
+                url : '/ingredients/?do=ajax',
+                dataType : 'json',
+                cacheResults : true
+            }
+        });
+		
+		$('.ingredient-input:last-of-type').last()[0].name = "ingredients[]";
+		$("td.ingredients div input").prop('disabled', true);
+	}
+	
+	function lastAddIngredient(element, clone)
+	{
+		if (element == $('.ingredient-input:last-of-type').last()[0]) {
+			addIngredient(clone);
+		}
+	}
+	
+</script>
+{/block}
+
+
+{block head}
+	<script src="{$basePath}/js/textext.js"></script>
+	<script src="{$basePath}/js/diacriticsRemover.js"></script>
+{/block}

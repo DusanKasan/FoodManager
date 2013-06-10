@@ -1,0 +1,141 @@
+{**
+ * My Application layout template.
+ *
+ * @param string   $basePath web base path
+ * @param string   $robots   tell robots how to index the content of a page (optional)
+ * @param array    $flashes  flash messages
+ *}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="Nette Framework web application skeleton">
+	<meta name="robots" content="{$robots}" n:ifset="$robots">
+	<meta name="viewport" content="width=device-width">
+	
+	<title>{block title|striptags|upper}Nette Application Skeleton{/block}</title>
+<!--
+	<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/screen.css">
+	<link rel="stylesheet" media="print" href="{$basePath}/css/print.css">
+-->	
+	<link href="{$basePath}/css/normalize.css" rel="stylesheet">
+	<link href="{$basePath}/css/foundation.css" rel="stylesheet">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+	<link href="{$basePath}/css/custom.css" rel="stylesheet">
+	
+	<script src="{$basePath}/js/vendor/custom.modernizr.js"></script>
+	<script src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
+	<script src="{$basePath}/js/netteForms.js"></script>
+	<script src="{$basePath}/js/nette.ajax.js"></script>
+	<script>
+		$(document).ready(function() {
+			$.nette.init();
+		});
+	</script>
+	
+	<link rel="shortcut icon" href="{$basePath}/favicon.ico">
+	{block head}{/block}
+</head>
+
+<body>
+
+<!-- Navigation -->
+<script> document.body.className+=' js' </script>
+	
+	<nav class="top-bar">
+		<ul class="title-area">
+            <!-- Title Area -->
+            <li class="name">
+				<h1><a n:href="Foods:list">FoodManager</a></h1>
+            </li>
+            <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+            <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+		</ul>
+			
+		<section class="top-bar-section">
+            <ul class="left">
+				<li class="divider"></li>
+				<li class="has-dropdown"><a n:href="#">Browse</a>
+					<ul class="dropdown">
+						<li><a n:href="Foods:list"><i class="icon-list-ul"></i> All food</a></li>
+						<li><a n:href="Foods:categories"><i class="icon-list-ul"></i> Food Categories</a></li>
+						{if $user->isLoggedIn()}
+<!--							<li><a href="#"><i class="icon-star"></i> Favorites</a></li>-->
+							<li><a n:href="Foods:list id_user => $user->id"><i class="icon-star"></i> My Foods</a></li>
+						{/if}
+					</ul>
+				</li>
+				
+				{if $user->isLoggedIn()}
+					<li class="divider"></li>
+					<li>
+						<a n:href="Foods:add">Add food</a>
+					</li>
+				{/if}
+				
+				<li class="divider"></li>
+				
+
+				
+				<li class="header-form has-form">
+					<form id="search-form" action="{link Foods:list}" method="GET">
+					<div class="row collapse">
+						<div class="small-10 columns">
+							<input name="search" type="text" placeholder="Search" />
+						</div>
+<!--							<a class="small-2 columns submit-search" href="#" onclick="$('#search-form').submit()">
+								<i class="icon-search"></i>
+							</a>-->
+							<button class="small-2 columns button submit-search" type="submit">
+								<i class="icon-search"></i>
+							</button>
+					</div>
+					</form>
+				</li>
+            </ul>
+
+            <!-- Right Nav Section -->
+			{block right-nav}
+			{/block}
+			
+			<ul class="right">
+			{snippet right_menu}
+				{if $user->isLoggedIn()}
+					<li class="has-dropdown">
+						<a href="#">{$user->identity->username} <i class="icon-cog"></i></a>
+						<ul class="dropdown">
+							<li><a n:href="logout!" class="ajax">Log out</a></li>
+<!--							<li><a href="#">Options</a></li>-->
+						</ul>
+					</li>
+				{/if}
+				
+				{if !$user->isLoggedIn()}
+					<li class="has-dropdown">
+						<a href="#"><i class="icon-lock"></i> Account</a>
+						<ul class="dropdown">
+							<li><a n:href="Users:login">Log in</a></li>
+							<li><a n:href="Users:register">Register</a></li>
+						</ul>
+					</li>
+				{/if}
+			{/snippet}
+			</ul>
+			
+		</section>
+	</nav>
+	
+
+	<div data-alert n:foreach="$flashes as $flash" class="alert alert-box flash {$flash->type}">{$flash->message}<a href="#" class="close">&times;</a></div>
+	
+	<div class="row" id="content-container">
+		{include #content}
+	</div>
+	
+	<script src="{$basePath}/js/foundation.min.js"></script>
+	<script>
+		$(document).foundation();
+	</script>
+</body>
+</html>

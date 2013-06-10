@@ -1,0 +1,76 @@
+{block content}
+<div id="delete-modal" class="reveal-modal">
+  <h2>Confirm food deletion</h2>
+  <p>Do you really want to delete <strong>{ucfirst($food->food)}</strong>?</p>
+  <p>
+	  <a n:href="delete!" class="secondary button">Delete</a>
+	<a class="secondary button" onclick="$('#delete-modal').foundation('reveal','close')">Close</a>
+  </p>
+  <a class="close-reveal-modal">&#215;</a>
+</div>
+
+<div class="large-12 columns food-headline">
+			<h3>{ucfirst($food->food)}
+			{if $hasOwnerPrivilege}
+				<a href="#" title="Delete this food" data-reveal-id="delete-modal" class="action"><i class="icon-trash icon-large"></i></a>
+				<a class="action" n:href="edit id => $food->id_food"><i class="icon-pencil icon-large"></i></a>
+			{/if}
+			</h3>
+</div>
+
+<div class="large-12 columns">
+	{if $food->related('foods_pictures')->count()}
+		<div class="large-4 columns">
+			<div class="row">
+			<ul class="clearing-thumbs clearing-feature" data-clearing>
+				{foreach $food->related('foods_pictures') as $picture}
+					<li class="clearing-featured-img"><a href="{substr($picture->file->filename, strlen(WWW_DIR))}" ><img src="{substr($picture->file->filename, strlen(WWW_DIR))}" /></a></li>
+				{/foreach}
+			</ul>
+			<hr class="show-for-small" />
+		</div></div>
+	{/if}
+	
+	<div class="large-8 columns">
+		
+			<div class="row">
+				<h5>Description:</h5>
+				<span id="description" class="indented">
+					{!$food->description|nl2br}
+				</span>
+				<hr>
+			</div>
+				
+		
+			<div class="row">
+				<h5>Ingredients:</h5>
+				<ul class="disc indented">
+				{foreach $food->related('ingredients')->order('id_food_ingredient') as $ingredient}
+					<li>
+						{ifset $ingredient->amount} {$ingredient->amount} {/ifset}
+						<a n:href="Foods:list?ingredient=$ingredient->id_ingredient">{$ingredient->ingredient->ingredient}</a>
+					</li>
+				{/foreach}
+				</ul>
+				<hr>
+			</div>
+		
+
+		
+				
+			<div class="row">
+				<h5>Tags:</h5>
+				<span class="indented">
+				{foreach $food->related('tags')->order('id_food_tag') as $tag}
+					<a n:href="Foods:list tags => $tag->id_tag" class="round-marker">{$tag->tag->tag}</a>
+				{/foreach}
+				</span>
+			</div>	
+	</div>
+</div>
+
+{/block}
+
+
+{block head}
+{/block}
