@@ -1,6 +1,24 @@
 {block content}
-{var $inside_ingredients = FALSE}
 
+{snippet pictures-edit}
+	{foreach $food->related('foods_pictures') as $picture}
+		<div id="image-deletion-modal-{$iterator->counter}" class="reveal-modal">
+			<h2>Confirm image deletion!</h2>
+			<p class="lead">
+				<a n:href="deletePicture! $picture->id_food_picture" class="ajax button" onclick="$('#image-deletion-modal-{$iterator->counter}').foundation('reveal','close')">Delete image</a>
+				<a href="#" class="button" onclick="$('#image-deletion-modal-{$iterator->counter}').foundation('reveal','close')">Cancel</a>
+			</p>
+			<a class="close-reveal-modal">&#215;</a>
+		</div>
+		
+		<div class="picture-edit-container">
+			<img class="picture-edit" src="{substr($picture->file->filename, strlen(WWW_DIR))}"/>
+			<a href="#" data-reveal-id="image-deletion-modal-{$iterator->counter}" class="tiny button secondary expand">Delete image</a>
+		</div>
+	{/foreach}
+{/snippet}
+
+{var $inside_ingredients = FALSE}
 {form editFoodForm}
 <table>
 {foreach $form->components as $key => $value}
@@ -48,7 +66,7 @@
 	cloned_html = cloned_html.replace(/1/g, ':placeholder:');
 	cloned_html = cloned_html.replace(/:placeholder:/, '1');
 	
-	$(document).ready(function() {			
+	$(document).ready(function() {	
 		$('.ingredient-input')
 			.textext({
 				plugins : 'autocomplete ajax arrow',
@@ -58,6 +76,8 @@
 					cacheResults : true
 				}
 			});
+
+		$('input[type=file]').get(0).name = "images[]"; //fuj!
 	});
 	
 	$('.tags-input')

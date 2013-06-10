@@ -13,7 +13,7 @@ class TagsModel extends \BaseTableAccessModel
 	 * 
 	 * @param string $tag_name 
 	 * 
-	 * @return ActiveRow or FALSE if there is no such row 
+	 * @return ActiveRow
 	 */
 	public function createTagIfNotExists($tag_name)
 	{		
@@ -27,7 +27,7 @@ class TagsModel extends \BaseTableAccessModel
 		if ($count === 1) {
 			$tag = $result->fetch();
 		} elseif ($count > 1) {
-			//match against full tag name if possible
+			//attempt better match
 			$full_match_result = $this->database->table($this->table)->where(array('tag' => $tag_name));
 			if ($full_match_result->count()) {
 				$tag = $full_match_result->fetch();
@@ -38,9 +38,22 @@ class TagsModel extends \BaseTableAccessModel
 			$condition['tag'] = $tag_name;
 			$tag = $this->createOne($condition);
 		} else {
-			throw new \Exception('Negative tag count on select!');
+			throw new \DatabaseException('Negative tag count on select! World will soon end!');
 		}
 		
 		return $tag;
+	}
+	
+	/**
+	 * Gets categories
+	 * 
+	 * @return \Nette\Database\Table\Selection 
+	 */
+	public function getCategories()
+	{
+		return $this->database->table('tags')
+				->select('tags.*, count(foods_tags:id_tag) AS "number_of_foods"')
+				->where('is_category = ?', TRUE)
+				->group('id_tag');
 	}
 }

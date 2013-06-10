@@ -61,7 +61,7 @@ class CreateFoodForm extends \Nette\Application\UI\Form
 		
 		if ($image->isOk()) {
 			$id_file = $context->uploader->upload($image, $this->presenter->user);
-			$context->foods_model->addImageToFood($food->id_food, $id_file);
+			$context->foods_pictures_model->addPictureToFood($food->id_food, $id_file);
 		}
 		
 		foreach ($tags as $tag) {

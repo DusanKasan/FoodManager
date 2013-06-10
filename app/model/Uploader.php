@@ -19,8 +19,12 @@ class Uploader extends \BaseModel
 	 */
 	public function upload(\Nette\Http\FileUpload $file, Nette\Security\User $user = NULL)
 	{
+		$had_transaction = $this->database->inTransaction();
+		
 		try {
-			$this->database->beginTransaction();
+			if (!$had_transaction) {
+				$this->database->beginTransaction();
+			}
 			
 			$partial_file_data = array(
 				'original_filename' => $file->getName(),
@@ -47,14 +51,17 @@ class Uploader extends \BaseModel
 			);
 			$file_row->update($update_data);
 			
-			$this->database->commit();
-			$this->logger->log('File has been upload, resulting in', $file_row->toArray());
-
+			if (!$had_transaction) {
+				$this->database->commit();
+			}
+			
 			return $file_row->id_file;
-		} catch (\Exception $e) {
-			$this->database->rollBack();
-			$this->logger->setLogType('error')->log('Unable to upload file!', $e->getMessage());
-			throw $e;
+		} catch (\Exception $exception) {
+			if (!$had_transaction) {
+				$this->database->rollBack();
+			}
+			
+			throw $exception;
 		}
 	}
 }

@@ -16,13 +16,17 @@ abstract class BaseTableAccessModel extends BaseModel
 	 * 
 	 * @param array $data
 	 * 
-	 * @return ActiveRow or FALSE on error
+	 * @return ActiveRow
+	 * 
+	 * @throws \DatabaseException
 	 */
 	public function createOne($data)
 	{
 		$result = $this->database->table($this->table)->insert($data);
 		
-		$this->logger->log("Created new row in {$this->table} table with", $data, "resulting in", $result->toArray());
+		if (FALSE === $result) {
+			throw new \DatabaseException("Insert on {$this->table} failed! Unable to insert data: " . var_export($data, TRUE));
+		}
 		
 		return $result;
 	}
@@ -72,11 +76,10 @@ abstract class BaseTableAccessModel extends BaseModel
 	public function updateOne($id, array $data)
 	{
 		$result = $this->database->table($this->table)->get($id)->update($data);
-
-		$this->logger->log("Row with id {$id} in {$this->table} table was updated using",
-				$data,
-				"resulting in",
-				$this->getOne($id)->toArray());
+		
+		if (FALSE === $result) {
+			throw new \DatabaseException("Update on {$this->table} failed! Unable to update row wit id:{$id} using data: " . var_export($data, TRUE));
+		}
 		
 		return $result;
 	}
@@ -90,10 +93,11 @@ abstract class BaseTableAccessModel extends BaseModel
 	 */
 	public function deleteOne($id)
 	{
-		
-		$row = $this->getOne($id)->toArray();
 		$result = $this->database->table($this->table)->get($id)->delete();
-		$this->logger->log("Row with id {$id} in {$this->table} table was deleted. The row was ", $row);
+		
+		if (FALSE === $result) {
+			throw new \DatabaseException("Unable to delete from {$this->table} row with id:{$id}");
+		}
 		
 		return $result;
 	}

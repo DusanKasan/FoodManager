@@ -27,7 +27,7 @@ class IngredientsModel extends \BaseTableAccessModel
 		if ($count === 1) {
 			$ingredient = $result->fetch();
 		} elseif ($count > 1) {
-			//match against full tag name if possible
+			//attempt better match
 			$full_match_result = $this->database->table($this->table)->where(array('ingredient' => $ingredient_name));
 			if ($full_match_result->count()) {
 				$ingredient = $full_match_result->fetch();
@@ -38,23 +38,9 @@ class IngredientsModel extends \BaseTableAccessModel
 			$condition['ingredient'] = $ingredient_name;
 			$ingredient = $this->createOne($condition);
 		} else {
-			throw new \Exception('Negative ingredient count on select!');
+			throw new \DatabaseException('Negative ingredient count on select! World will soon end!');
 		}
 		
-		
 		return $ingredient;
-	}
-	
-	/**
-	 * Gets categories
-	 * 
-	 * @return \Nette\Database\Table\Selection 
-	 */
-	public function getCategories()
-	{
-		return $this->database->table('tags')
-				->select('tags.*, count(foods_tags:id_tag) AS "number_of_foods"')
-				->where('is_category = ?', TRUE)
-				->group('id_tag');
 	}
 }

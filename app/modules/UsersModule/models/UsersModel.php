@@ -19,8 +19,6 @@ class UsersModel extends \BaseModel
 	 * @param string $username
 	 * @param string $password
 	 * @param string $email
-	 * 
-	 * @return boolean 
 	 */
 	public function createUser($username, $password, $email)
 	{		
@@ -42,16 +40,11 @@ class UsersModel extends \BaseModel
 					self::USER
 			);
 
-			$this->database->commit();
-			
-			$this->logger->log("New user created: ", $username);
-		} catch (\Exception $e) {
-			$this->logger->setLogType('error')->log("Problem creating User.", $e->getMessage());
+			$this->database->commit();		
+		} catch (\Exception $exception) {
 			$this->database->rollBack();
-			return FALSE;
+			throw new \DatabaseException($exception->getMessage());
 		}
-		
-		return TRUE;
 	}
 	
 	public function recoverPassword($username = NULL, $email = NULL)
@@ -67,19 +60,15 @@ class UsersModel extends \BaseModel
 			'password' => \Authenticator::calculateHash($plaintext_pass),
 		);
 
-		try {
-			$this->database->table('users')->where($conditions)->update($new_password);
-			
-			//TODO: Mail on recovery
-			//mail($email, '[Foodstr] New Password', "New password for $username is " . $new_password['password']);
-			file_put_contents(WWW_DIR . '/../pass.txt', $plaintext_pass);
-			$this->logger->log("Password reset and recovery mail sent for user with username {$username}.");
-			return TRUE;
-		} catch (\Exception $e) {
-			$this->logger->setLogType('error')->log("Error reseting and/or mailing new password for user with username {$username}. {$e->getMessage()}");
-			return FALSE;
+		$result = $this->database->table('users')->where($conditions)->update($new_password);
+		
+		if (FALSE === $result) {
+			throw new \DatabaseException('Updating username in database failed!');
 		}
+
+		//TODO: Mail on recovery
+		//mail($email, '[Foodstr] New Password', "New password for $username is " . $new_password['password']);
+		//setup in neon + DI
+		file_put_contents(WWW_DIR . '/../pass.txt', $plaintext_pass);
 	}
 }
-
-?>

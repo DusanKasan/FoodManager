@@ -1,8 +1,8 @@
 <?php
 /**
- * Description of Roles
+ * Roles in system
  *
- * @author Dusan
+ * @author Dusan Kasan <dusan@kasan.sk>
  */
 class Roles {
 	const USER = 'user';

@@ -13,13 +13,18 @@ class FoodsPresenter extends \BasePresenter
 	const FOODS_PER_PAGE = 15;
 	const TAGS_ON_LIST_COUNT = 3;
 	
+	/**
+	 * Checks if $user is owner(has created) $food. Beware that you can supply wrong ActiveRecord and it breaks!
+	 * @todo think about it!
+	 * 
+	 * @param \Nette\Security\User $user
+	 * @param Nette\Database\Table\ActiveRow $food
+	 * 
+	 * @return boolean 
+	 */
 	private function checkIsFoodOwner(\Nette\Security\User $user, Nette\Database\Table\ActiveRow $food)
 	{
-		if (($user->isInRole(\Roles::USER) && $user->id == $food->id_user) || $user->isInRole(\Roles::ADMIN)) {
-			return TRUE;
-		} else {
-			return FALSE;
-		}
+		return (($user->isInRole(\Roles::USER) && $user->id == $food->id_user) || $user->isInRole(\Roles::ADMIN));
 	}
 	
 	/**
@@ -36,6 +41,11 @@ class FoodsPresenter extends \BasePresenter
 	public function renderShow($id)
 	{
 		$this->template->food = $this->context->foods_model->getOne($id);
+		
+		if (FALSE === $this->template->food) {
+			throw new \Nette\Application\BadRequestException();
+		}
+		
 		$this->template->hasOwnerPrivilege = $this->checkIsFoodOwner($this->user, $this->template->food);
 	}
 	
@@ -44,7 +54,7 @@ class FoodsPresenter extends \BasePresenter
 	 */
 	public function renderCategories()
 	{
-		$this->template->categories = $this->context->ingredients_model->getCategories();
+		$this->template->categories = $this->context->tags_model->getCategories();
 	}
 	
 	/**
@@ -59,7 +69,7 @@ class FoodsPresenter extends \BasePresenter
 		$page = $foods_filter->get('page', 1);
 		$this->template->foods = $foods->page($page, self::FOODS_PER_PAGE);
 		
-		//Custom "paginator"
+		//Custom "paginator" Shame on me!
 		//TODO: Pouzit nette paginator
 		$this->template->current_page = $page;
 		$this->template->page_count = $page_count = ceil($foods_count/(self::FOODS_PER_PAGE));
@@ -111,14 +121,14 @@ class FoodsPresenter extends \BasePresenter
 		}	
 		
 		//test
-//		$data = array(
-//			'food' => '',
-//			'id_user' => $this->user->id,
-//		);
-//		
-//		$new_food = $this->context->foods_model->createOne($data);
-//		
-//		$this->redirect('Foods:edit', array('id' => $new_food->id_food));
+		$data = array(
+			'food' => '',
+			'id_user' => $this->user->id,
+		);
+		
+		$new_food = $this->context->foods_model->createOne($data);
+		
+		$this->redirect('Foods:edit', array('id' => $new_food->id_food));
 		
 		//tu vypisat edit food form :)
 	}
@@ -154,6 +164,7 @@ class FoodsPresenter extends \BasePresenter
 		
 		$this->template->tags_string = json_encode($tags);
 		$this->template->assigned_ingredients_count = $food->related('ingredients')->count();
+		$this->template->food = $food;
 	}
 	
 	public function handleDelete()
@@ -167,5 +178,11 @@ class FoodsPresenter extends \BasePresenter
 			
 		$this->context->foods_model->deleteOne($food->id_food);
 		$this->redirect('Foods:List');	
+	}
+	
+	public function handleDeletePicture($id_food_picture)
+	{		
+		$this->context->foods_pictures_model->deleteFoodPicture($id_food_picture);
+		$this->invalidateControl('pictures-edit');
 	}
 }

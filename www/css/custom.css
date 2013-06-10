@@ -145,6 +145,10 @@ textarea[name=description] {
   .clearing-thumbs {
     padding-right: 15px;
   }
+  
+  .picture-edit-container {
+		width: 20%;
+	}
 }
 
 /*------------Small screens-----------------*/
@@ -157,6 +161,15 @@ textarea[name=description] {
 		margin-top: 0;
 		min-height: 100%;
 	}
+	
+	.picture-edit-container {
+		width: 48%;
+	}
+}
+
+.picture-edit-container {
+	display: inline-block;
+	margin:0.5%;
 }
 
 #content-container {
@@ -175,7 +188,6 @@ input[type=file] {
 th>label {
 	display: inline-block;
 }
-
 /*.indented {
 	display: inline-block;
 	margin-left: 10px !important;

@@ -6,16 +6,9 @@ class BaseModel
 	 * @var \Nette\Database\Connection 
 	 */
 	protected $database;
-	
-	/**
-	 *
-	 * @var \Logger\ILogger 
-	 */
-	protected $logger;
-	
-	public function __construct(\Nette\Database\Connection $database, \Logger\ILogger $logger)
+
+	public function __construct(\Nette\Database\Connection $database)
 	{		
 		$this->database = $database;
-		$this->logger = $logger;
 	}
 }

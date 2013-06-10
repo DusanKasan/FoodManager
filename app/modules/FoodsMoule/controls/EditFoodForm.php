@@ -37,7 +37,16 @@ class EditFoodForm extends \Nette\Application\UI\Form
 			'title' => 'Food description will reflect new lines as inputed.',
 		));
 		
-		$this->addUpload('image', 'Food image:')->setAttribute('multiple'); //TODO: image types validation
+		//Skurvene nette. Jak to nemoze mat multiple file upload!!!
+		//Takze zatim kym sa neodhodlam prepisat to na zvlast komponentu
+		//Bude to ohackovane cez js
+		//@todo: toto sa musi prerobit ako nejake male rozsirenie formu + makro do sablon
+		$image_upload = $this->addUpload('images', 'Food images:')->setAttribute('multiple'); //TODO: image types validation
+		$image_upload->getLabelPrototype()->addAttributes(array(
+			'data-tooltip' => '',
+			'class' => 'has-tip',
+			'title' => 'You can select multiple files at once!',
+		));
 		
 		$ingredients_container = $this->addContainer('ingredients');
 		$ingredients_iterator = 1;
@@ -70,7 +79,10 @@ class EditFoodForm extends \Nette\Application\UI\Form
 	}
 
     public function editFoodFormSubmitted(\Nette\Forms\Controls\SubmitButton $submit_button)
-	{					
+	{
+		$files = $this->getHttpRequest()->getFiles();
+		$images = \Nette\Utils\Arrays::get($files, 'images');
+		
 		$form = $submit_button->form;
 		$context = $this->presenter->context;
 		
@@ -111,8 +123,16 @@ class EditFoodForm extends \Nette\Application\UI\Form
 						$ingredient['amount']);
 			}
 			
+			foreach ($images as $image) {
+				if ($image->isOk()) {
+					$id_file = $context->uploader->upload($image, $this->presenter->user);
+					$context->foods_pictures_model->addPictureToFood($food->id_food, $id_file);
+				}
+			}
+			
 			$context->database->commit();
 		} catch (\Exception $exception) {
+			throw $exception;
 			$context->database->rollBack();
 			$this->presenter->flashMessage('Unable to add food. Wrong data supplied. DB Error.');
 			$this->presenter->redirect('Foods:edit', $this->id_food);

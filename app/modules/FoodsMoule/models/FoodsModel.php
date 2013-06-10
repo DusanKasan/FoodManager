@@ -35,23 +35,6 @@ class FoodsModel extends \BaseTableAccessModel
 	}
 	
 	/**
-	 * Assigns uploaded file (image) to food
-	 * 
-	 * @param integer $id_food
-	 * @param integer $id_file
-	 * 
-	 * @return \Nette\Database\Table\ActiveRow 
-	 */
-	public function addImageToFood($id_food, $id_file)
-	{
-		$data = array(
-			'id_food' => $id_food,
-			'id_uploaded_file' => $id_file,
-		);
-		return $this->database->table('foods_pictures')->insert($data);
-	}
-	
-	/**
 	 * Assigns tag to food
 	 * 
 	 * @param integer $id_food
@@ -65,7 +48,13 @@ class FoodsModel extends \BaseTableAccessModel
 			'id_food' => $id_food,
 			'id_tag' => $id_tag,
 		);
-		return $this->database->table('foods_tags')->insert($data);
+		
+		$result = $this->database->table('foods_tags')->insert($data);
+		if (FALSE === $result) {
+			throw new \DatabaseException("Unable to insert to foods_tags using data: " . var_export($data, TRUE));
+		}
+		
+		return $result;
 	}
 	
 	/**
@@ -85,30 +74,38 @@ class FoodsModel extends \BaseTableAccessModel
 			'id_ingredient' => $id_ingredient,
 			'amount' => $amount,
 		);
-		return $this->database->table('foods_ingredients')->insert($data);
+		
+		$result = $this->database->table('foods_ingredients')->insert($data);
+		if (FALSE === $result) {
+			throw new \DatabaseException("Unable to insert to foods_ingredients using data: " . var_export($data, TRUE));
+		}
+		
+		return $result;
 	}
 	
 	/**
 	 * Deletes all tags from food
 	 * 
 	 * @param type $id_food
-	 * 
-	 * @return integer Number of affected rows 
 	 */
 	public function deleteAllTagsFromFood($id_food)
 	{
-		return $this->database->table('foods_tags')->where('id_food', $id_food)->delete();
+		$result = $this->database->table('foods_tags')->where('id_food', $id_food)->delete();
+		if (FALSE === $result) {
+			throw new \DatabaseException("Unable to delete all tags from food with id:{$id_food}");
+		}
 	}
 	
 	/**
 	 * Deletes all ingredient from food
 	 * 
 	 * @param integer $id_food
-	 * 
-	 * @return integer Number of affected rows 
 	 */
 	public function deleteAllIngredientsFromFood($id_food)
 	{
-		return $this->database->table('foods_ingredients')->where('id_food', $id_food)->delete();
+		$result = $this->database->table('foods_ingredients')->where('id_food', $id_food)->delete();
+		if (FALSE === $result) {
+			throw new \DatabaseException("Unable to delete all ingredients from food with id:{$id_food}");
+		}
 	}
 }

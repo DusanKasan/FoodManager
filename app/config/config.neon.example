@@ -35,6 +35,7 @@ common:
 		ingredients_model: \FoodsModule\IngredientsModel
 		foods_model: \FoodsModule\FoodsModel
 		tags_model: \FoodsModule\TagsModel
+		foods_pictures_model: \FoodsModule\FoodsPicturesModel
 
 	factories:
 
