@@ -188,6 +188,11 @@ input[type=file] {
 th>label {
 	display: inline-block;
 }
+
+li.clearing-featured-img.small {
+	width: 48%;
+	display:inline-block;
+}
 /*.indented {
 	display: inline-block;
 	margin-left: 10px !important;

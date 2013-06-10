@@ -24,7 +24,15 @@
 			<div class="row">
 			<ul class="clearing-thumbs clearing-feature" data-clearing>
 				{foreach $food->related('foods_pictures') as $picture}
-					<li class="clearing-featured-img"><a href="{substr($picture->file->filename, strlen(WWW_DIR))}" ><img src="{substr($picture->file->filename, strlen(WWW_DIR))}" /></a></li>
+					<li 
+						{if 1 == $iterator->counter}
+							class="clearing-featured-img"
+						{/if}
+						
+						{if $iterator->counter>1 && $iterator->counter<4}
+							class="clearing-featured-img small"
+						{/if}
+						><a href="{substr($picture->file->filename, strlen(WWW_DIR))}" ><img src="{substr($picture->file->filename, strlen(WWW_DIR))}" /></a></li>
 				{/foreach}
 			</ul>
 			<hr class="show-for-small" />
