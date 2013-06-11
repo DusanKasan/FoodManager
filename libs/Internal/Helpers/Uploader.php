@@ -10,10 +10,10 @@
 class Uploader extends \BaseModel
 {	
 	/*
-	 * @param type $file
+	 * @param Nette\Http\FileUpload $file
 	 * @param Nette\Security\User $user
 	 * 
-	 * @return integer Id of file in DB
+	 * @return integer id of file in DB
 	 * 
 	 * @throws \Exception
 	 */

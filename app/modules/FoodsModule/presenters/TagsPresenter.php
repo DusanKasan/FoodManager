@@ -5,6 +5,7 @@ use Nette\Application\UI;
  * Tags presenter
  * ATM just for ajax
  * 
+ * @package FoodsModule
  * @author Dusan Kasan <dusan@kasan.sk>
  */
 class TagsPresenter extends \BasePresenter

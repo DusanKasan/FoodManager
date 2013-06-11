@@ -6,6 +6,7 @@ use Nette\Application\UI;
  * Foods presenter
  * Listing, deleting, updating, creating
  * 
+ * @package FoodsModule
  * @author Dusan Kasan <dusan@kasan.sk>
  */
 class FoodsPresenter extends \BasePresenter
@@ -106,21 +107,12 @@ class FoodsPresenter extends \BasePresenter
 		//---------------/Hack pre paginator
 	}
 	
-	public function createComponentCreateFoodForm()
-	{
-		$tags = $this->context->tags_model->getAll()->fetchPairs('id_tag', 'tag');
-		$ingredients = $this->context->ingredients_model->getAll()->fetchPairs('ingredient', 'ingredient');
-		
-		return new \FoodsModule\CreateFoodForm();
-	}
-	
 	public function renderAdd()
 	{
 		if (!$this->user->isLoggedIn()) {
 			throw new \UnauthorizedException;
 		}	
 		
-		//test
 		$data = array(
 			'food' => '',
 			'id_user' => $this->user->id,
@@ -129,8 +121,6 @@ class FoodsPresenter extends \BasePresenter
 		$new_food = $this->context->foods_model->createOne($data);
 		
 		$this->redirect('Foods:edit', array('id' => $new_food->id_food));
-		
-		//tu vypisat edit food form :)
 	}
 	
 	public function createComponentEditFoodForm()

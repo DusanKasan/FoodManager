@@ -1,11 +1,3 @@
-{**
- * My Application layout template.
- *
- * @param string   $basePath web base path
- * @param string   $robots   tell robots how to index the content of a page (optional)
- * @param array    $flashes  flash messages
- *}
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +6,7 @@
 	<meta name="robots" content="{$robots}" n:ifset="$robots">
 	<meta name="viewport" content="width=device-width">
 	
-	<title>{block title|striptags|upper}Nette Application Skeleton{/block}</title>
+	<title>{block title|striptags}Food Manager{/block}</title>
 <!--
 	<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/screen.css">
 	<link rel="stylesheet" media="print" href="{$basePath}/css/print.css">

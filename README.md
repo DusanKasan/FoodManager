@@ -1,2 +1,2 @@
-Simple web utility to manage food rcipes and shopping lists
-===========================================================
+Simple web utility to manage food recipes and shopping lists
+============================================================

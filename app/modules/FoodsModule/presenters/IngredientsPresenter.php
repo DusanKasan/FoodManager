@@ -6,6 +6,7 @@ use Nette\Application\UI;
  * Ingredients presenter
  * ATM just for ajax
  * 
+ * @package FoodsModule
  * @author Dusan Kasan <dusan@kasan.sk>
  */
 class IngredientsPresenter extends \BasePresenter

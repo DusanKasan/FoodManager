@@ -6,6 +6,7 @@ use Nette\Application\UI;
 /**
  * Form handling password recovery
  *
+ * @package UsersModule
  * @author Dusan Kasan <dusan@kasan.sk>
  */
 class PasswordRecoveryForm extends \Nette\Application\UI\Form

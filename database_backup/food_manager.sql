@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Hostiteľ: localhost
--- Vygenerované: Po 10.Jún 2013, 06:35
+-- Vygenerované: Po 10.Jún 2013, 21:49
 -- Verzia serveru: 5.5.24-log
 -- Verzia PHP: 5.4.3
 
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `foods` (
   `is_finished` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_food`),
   KEY `id_user` (`id_user`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=89 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=90 ;
 
 -- --------------------------------------------------------
 
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `foods_ingredients` (
   PRIMARY KEY (`id_food_ingredient`),
   KEY `id_food` (`id_food`,`id_ingredient`),
   KEY `id_ingredient` (`id_ingredient`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=59 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=81 ;
 
 -- --------------------------------------------------------
 
@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `foods_pictures` (
   PRIMARY KEY (`id_food_picture`),
   KEY `id_food` (`id_food`),
   KEY `id_uploaded_file` (`id_uploaded_file`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=27 ;
 
 -- --------------------------------------------------------
 
@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `foods_tags` (
   PRIMARY KEY (`id_food_tag`),
   KEY `id_tag` (`id_tag`),
   KEY `foods_tags_ibfk_1` (`id_food`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=31 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=48 ;
 
 -- --------------------------------------------------------
 
@@ -180,7 +180,7 @@ CREATE TABLE IF NOT EXISTS `uploaded_files` (
   `id_user` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_file`),
   KEY `id_user` (`id_user`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=31 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=50 ;
 
 -- --------------------------------------------------------
 

@@ -1,6 +1,8 @@
 <?php
 /**
+ * Simple authorization, mostly not used yet.
  * 
+ * @author Dusan Kasan <dusan@kasan.sk>
  */
 class Authorizator extends \Nette\Object implements \Nette\Security\IAuthorizator
 {

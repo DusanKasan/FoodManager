@@ -141,32 +141,6 @@ textarea[name=description] {
 	height: 8em;
 }
 
-@media all and (min-width: 60em) {
-  .clearing-thumbs {
-    padding-right: 15px;
-  }
-  
-  .picture-edit-container {
-		width: 20%;
-	}
-}
-
-/*------------Small screens-----------------*/
-@media all and (max-width: 60em) {
-	td.ingredients {
-		width: 100%;
-	}
-	
-	.form-big{
-		margin-top: 0;
-		min-height: 100%;
-	}
-	
-	.picture-edit-container {
-		width: 48%;
-	}
-}
-
 .picture-edit-container {
 	display: inline-block;
 	margin:0.5%;
@@ -193,31 +167,34 @@ li.clearing-featured-img.small {
 	width: 48%;
 	display:inline-block;
 }
-/*.indented {
-	display: inline-block;
-	margin-left: 10px !important;
+
+/*------------Big screens-----------------*/
+@media all and (min-width: 60em) {
+  .clearing-thumbs {
+    padding-right: 15px;
+  }
+  
+  .picture-edit-container {
+		width: 20%;
+	}
 }
 
-.disc.indented {
-	display: block;
-	list-style-position: inside;
-}*/
-
-/*
-.orbit-bullets {
-	display: none;
+/*------------Small screens-----------------*/
+@media all and (max-width: 60em) {
+	td.ingredients {
+		width: 100%;
+	}
+	
+	.form-big{
+		margin-top: 0;
+		min-height: 100%;
+	}
+	
+	.picture-edit-container {
+		width: 48%;
+	}
+	
+	li.clearing-featured-img.small {
+		display:none;
+	}
 }
-
-.orbit-container>a, .orbit-container .orbit-slide-number, .orbit-container .orbit-timer {
-	filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
-	opacity: 0; 
-	-webkit-transition: opacity 400ms; 
-	-moz-transition: opacity 400ms; 
-	-o-transition: opacity 400ms; 
-	transition: opacity 400ms; 
-}
-
-.orbit-container:hover>a, .orbit-container:hover .orbit-slide-number, .orbit-container:hover .orbit-timer {
-	filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100); 
-	opacity: 1; 
-}*/

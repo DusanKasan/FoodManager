@@ -6,6 +6,7 @@ use Nette\Application\UI;
 /**
  * Login Form
  *
+ * @package UsersModule
  * @author Dusan Kasan <dusan@kasan.sk>
  */
 class LoginForm extends \Nette\Application\UI\Form

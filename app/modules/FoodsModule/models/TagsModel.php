@@ -1,6 +1,12 @@
 <?php
 namespace FoodsModule;
 
+/**
+ * Operations on tags
+ *
+ * @package FoodsModule
+ * @author Dusan Kasan <dusan@kasan.sk>
+ */
 class TagsModel extends \BaseTableAccessModel
 {
 	/**

@@ -3,9 +3,10 @@
 namespace FoodsModule;
 
 /**
- * Description of FoodFilter
+ * Helper. Filtering foods. Layer between presenter and model.
  *
- * @author Dusan
+ * @package FoodsModule
+ * @author Dusan Kasan <dusan@kasan.sk>
  */
 class FoodsFilter extends \Internal\Helpers\Filter
 {

@@ -1,37 +1,34 @@
 <?php
-
 use Nette\Security,
 	Nette\Utils\Strings;
 
-
-/*
-CREATE TABLE users (
-	id int(11) NOT NULL AUTO_INCREMENT,
-	username varchar(50) NOT NULL,
-	password char(60) NOT NULL,
-	role varchar(20) NOT NULL,
-	PRIMARY KEY (id)
-);
-*/
-
 /**
  * Users authenticator.
+ * 
+ * @author Dusan Kasan <dusan@kasan.sk>
  */
 class Authenticator extends Nette\Object implements Security\IAuthenticator
 {
 	/** @var Nette\Database\Connection */
 	private $database;
 
+	/**
+	 * Constructor 
+	 * 
+	 * @param Nette\Database\Connection $database 
+	 */
 	public function __construct(Nette\Database\Connection $database)
 	{
 		$this->database = $database;
 	}
 
-
-
 	/**
 	 * Performs an authentication.
+	 * 
+	 * @param array $credentials
+	 * 
 	 * @return Nette\Security\Identity
+	 * 
 	 * @throws Nette\Security\AuthenticationException
 	 */
 	public function authenticate(array $credentials)
@@ -56,11 +53,12 @@ class Authenticator extends Nette\Object implements Security\IAuthenticator
 		return new Security\Identity($row->id_user, (empty($roles)) ? 'guest' : $roles , $row->toArray());
 	}
 
-
-
 	/**
 	 * Computes salted password hash.
-	 * @param  string
+	 * 
+	 * @param string $hash
+	 * @param string $salt
+	 * 
 	 * @return string
 	 */
 	public static function calculateHash($password, $salt = NULL)

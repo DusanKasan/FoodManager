@@ -5,7 +5,6 @@ namespace UsersModule;
  * Handling User registration/login/password retrieval/
  *
  * @package UsersModule
- * 
  * @author Dusan Kasan <dusan@kasan.sk>
  */
 class UsersModel extends \BaseModel

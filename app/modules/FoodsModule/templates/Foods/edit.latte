@@ -2,7 +2,7 @@
 
 {snippet pictures-edit}
 	{foreach $food->related('foods_pictures') as $picture}
-		<div id="image-deletion-modal-{$iterator->counter}" class="reveal-modal">
+		<div id="image-deletion-modal-{$iterator->counter}" class="reveal-modal small">
 			<h2>Confirm image deletion!</h2>
 			<p class="lead">
 				<a n:href="deletePicture! $picture->id_food_picture" class="ajax button" onclick="$('#image-deletion-modal-{$iterator->counter}').foundation('reveal','close')">Delete image</a>

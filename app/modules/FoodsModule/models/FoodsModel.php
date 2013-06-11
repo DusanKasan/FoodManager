@@ -1,6 +1,12 @@
 <?php
 namespace FoodsModule;
 
+/**
+ * Operations on foods
+ *
+ * @package FoodsModule
+ * @author Dusan Kasan <dusan@kasan.sk>
+ */
 class FoodsModel extends \BaseTableAccessModel
 {
 	/**
@@ -23,7 +29,7 @@ class FoodsModel extends \BaseTableAccessModel
 		
 		$query = $this->database->table('foods')->where($filter->exportWhere());
 		
-		//TODO: Implement some search engine :)
+		//TODO: Implement some search engine
 		if ($search) {
 			$fulltext_search = "lower(food) LIKE lower(?) OR lower(description) LIKE lower(?)";
 			$query->where($fulltext_search, "%{$search}%", "%{$search}%");

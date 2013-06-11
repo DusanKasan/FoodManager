@@ -1,6 +1,12 @@
 <?php
 namespace FoodsModule;
 
+/**
+ * Operations on foodsPictures
+ *
+ * @package FoodsModule
+ * @author Dusan Kasan <dusan@kasan.sk>
+ */
 class FoodsPicturesModel extends \BaseTableAccessModel
 {
 	/**
