@@ -154,6 +154,7 @@ class FoodsPresenter extends \BasePresenter
 		
 		$this->template->tags_string = json_encode($tags);
 		$this->template->assigned_ingredients_count = $food->related('ingredients')->count();
+		$this->template->pictures_count = $food->related('foods_pictures')->count();
 		$this->template->food = $food;
 	}
 	
@@ -174,5 +175,13 @@ class FoodsPresenter extends \BasePresenter
 	{		
 		$this->context->foods_pictures_model->deleteFoodPicture($id_food_picture);
 		$this->invalidateControl('pictures-edit');
+	}
+	
+	public function createComponentAddCommentForm()
+	{		
+		$id_food = $this->params['id'];
+		$food = $this->presenter->context->foods_model->getOne($id_food);
+		
+		return new \FoodsModule\AddFoodCommentForm($food);
 	}
 }

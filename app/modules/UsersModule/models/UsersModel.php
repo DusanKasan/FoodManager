@@ -7,11 +7,16 @@ namespace UsersModule;
  * @package UsersModule
  * @author Dusan Kasan <dusan@kasan.sk>
  */
-class UsersModel extends \BaseModel
+class UsersModel extends \BaseTableAccessModel
 {	
 	const ADMIN = 1;
 	const USER = 2;
-
+	
+	/**
+	 * @var string 
+	 */
+	protected $table = 'users';
+	
 	/**
 	 * Create user
 	 * 
@@ -46,7 +51,7 @@ class UsersModel extends \BaseModel
 		}
 	}
 	
-	public function recoverPassword($username = NULL, $email = NULL)
+	public function recoverPassword($username, $email, \MailModule\MailerModel $mailer)
 	{
 		$conditions = array(
 			'username' => $username,
@@ -58,16 +63,13 @@ class UsersModel extends \BaseModel
 		$new_password = array(
 			'password' => \Authenticator::calculateHash($plaintext_pass),
 		);
-
-		$result = $this->database->table('users')->where($conditions)->update($new_password);
 		
-		if (FALSE === $result) {
-			throw new \DatabaseException('Updating username in database failed!');
+		if (0 === $this->database->table('users')->where($conditions)->count()) {
+			throw new \Nette\InvalidArgumentException('Wrong username or email');
 		}
 
-		//TODO: Mail on recovery
-		//mail($email, '[Foodstr] New Password', "New password for $username is " . $new_password['password']);
-		//setup in neon + DI
-		file_put_contents(WWW_DIR . '/../pass.txt', $plaintext_pass);
+		$this->database->table('users')->where($conditions)->update($new_password);
+		
+		$mailer->sendPasswordRetrievalMail($email, $username, $plaintext_pass);
 	}
 }

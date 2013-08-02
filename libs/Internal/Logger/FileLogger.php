@@ -8,7 +8,7 @@ namespace Logger;
  */
 class FileLogger implements ILogger
 {
-	const DEFAULT_LOG_TYPE = 'info';
+	const DEFAULT_LOG_TYPE = self::TYPE_INFO;
 	
 	/**
 	 * @var string 

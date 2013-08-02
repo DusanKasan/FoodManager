@@ -34,18 +34,27 @@ class RegisterForm extends \Nette\Application\UI\Form
 	{
 		$context = $this->presenter->context;
 		$user = $this->presenter->user;
+		$values = $this->getValues();
 		
-		$username = $this->getValues()->username;
-		$password = $this->getValues()->password;
-		$email = $this->getValues()->email;
+		$username = $values->username;
+		$password = $values->password;
+		$email = $values->email;
 			
 		try {
 			$context->users_model->createUser($username, $password, $email);
-			$user->login($username, $password);		
-		} catch (\Exception $e) {
+			$user->login($username, $password);
+			$context->logger->log('User created! User id:', $user->id);
+		} catch (\Exception $exception) {
+			$context->logger->setLogType('error')->log('Unable to create user!', $exception->getMessage());
 			$this->presenter->flashMessage('Problem creating User! Maybe this username already exists!', 'warning');
 		}
-
+		
+		try {
+			$context->mailer_model->sendWelcomeMail($email, $username, $password);
+		} catch (\Nette\InvalidStateException $exception) {
+			$context->logger->setLogType('error')->log('Unable to send mail!', $exception->getMessage());
+		}
+		
 		if (!$this->presenter->hasFlashSession()) {
 			$this->presenter->redirect('Foods:list');
 		}

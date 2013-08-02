@@ -8,6 +8,9 @@ namespace Logger;
  */
 interface ILogger
 {
+	const TYPE_ERROR = 'error';
+	const TYPE_INFO = 'info';
+	
 	/**
 	 * Log $data 
 	 */

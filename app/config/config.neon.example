@@ -36,6 +36,7 @@ common:
 		foods_model: \FoodsModule\FoodsModel
 		tags_model: \FoodsModule\TagsModel
 		foods_pictures_model: \FoodsModule\FoodsPicturesModel
+		mailer_model: \MailModule\MailerModel
 
 	factories:
 

@@ -21,7 +21,6 @@ class LoginForm extends \Nette\Application\UI\Form
 		
 		$this->addText('username', 'Username:')->setRequired('This field is required!')->setAttribute('autofocus');;
 		$this->addPassword('password', 'Password:')->setRequired('This field is required!');
-		
 		$this->addSubmit('login', 'Login')->onClick[] = callback($this, 'loginFormSubmitted');
 		$forgotten_pass_button = $this->addSubmit('forgotten_pass', 'Forgot your password?');
 		$forgotten_pass_button->setValidationScope(NULL);
@@ -37,9 +36,10 @@ class LoginForm extends \Nette\Application\UI\Form
 	{		
 		$form = $submit_button->form;
 		$user = $this->presenter->context->user;
+		$values = $form->getValues();
 		
-		$username = $form->getValues()->username;
-		$password = $form->getValues()->password;
+		$username = $values->username;
+		$password = $values->password;
 				
 		try {
 			$user->login($username, $password);

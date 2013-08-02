@@ -31,13 +31,18 @@ class PasswordRecoveryForm extends \Nette\Application\UI\Form
 	 */
 	public function passwordRecoveryFormSubmitted(\Nette\Forms\Form $form)
 	{
-		$username = $this->getValues()->username;
-		$email = $this->getValues()->email;
+		$values = $this->getValues();
+		$username = $values->username;
+		$email = $values->email;
+		$mailer = $this->presenter->context->mailer_model;
 				
-		if ($this->presenter->context->users_model->recoverPassword($username, $email)) {
+		try {
+			$this->presenter->context->users_model->recoverPassword($username, $email, $mailer);
 			$this->presenter->flashMessage('New password has been sent to ' . $email . '!');
-		} else {
+		} catch (\Nette\InvalidArgumentException $e) {
 			$this->presenter->flashMessage('Wrong username or e-mail!', 'warning');
+		} catch (\Nette\InvalidStateException $e) {
+			$this->presenter->flashMessage('Error sending email! Contact administrator at dusan@kasan.sk.', 'warning');
 		}
 	}
 }

@@ -1,21 +1,20 @@
 {block content}
 
 {snippet pictures-edit}
-	{foreach $food->related('foods_pictures') as $picture}
-		<div id="image-deletion-modal-{$iterator->counter}" class="reveal-modal small">
-			<h2>Confirm image deletion!</h2>
-			<p class="lead">
-				<a n:href="deletePicture! $picture->id_food_picture" class="ajax button" onclick="$('#image-deletion-modal-{$iterator->counter}').foundation('reveal','close')">Delete image</a>
-				<a href="#" class="button" onclick="$('#image-deletion-modal-{$iterator->counter}').foundation('reveal','close')">Cancel</a>
-			</p>
-			<a class="close-reveal-modal">&#215;</a>
+	{if $pictures_count > 0}
+		<div class="section-container accordion edit-images-accordion" data-section="accordion" data-options="one_up: false;">
+		<section>
+			<p class="title" data-section-title><a href="#"><i class="icon-picture"></i> Edit images <i class="icon-chevron-down right"></i></a></p>
+			<div class="content" data-section-content>
+		{foreach $food->related('foods_pictures') as $picture}		
+			<div class="picture-edit-container">
+				<img class="picture-edit" src="{substr($picture->file->filename, strlen(WWW_DIR))}"/>
+				<a href="#" data-reveal-id="image-deletion-modal-{$iterator->counter}" class="tiny button secondary expand">Delete image</a>
+			</div>
+		{/foreach}
+		</section>
 		</div>
-		
-		<div class="picture-edit-container">
-			<img class="picture-edit" src="{substr($picture->file->filename, strlen(WWW_DIR))}"/>
-			<a href="#" data-reveal-id="image-deletion-modal-{$iterator->counter}" class="tiny button secondary expand">Delete image</a>
-		</div>
-	{/foreach}
+	{/if}
 {/snippet}
 
 {var $inside_ingredients = FALSE}
@@ -116,6 +115,18 @@
 	}
 	
 </script>
+
+{foreach $food->related('foods_pictures') as $picture}
+		<div id="image-deletion-modal-{$iterator->counter}" class="reveal-modal small">
+			<h2>Confirm image deletion!</h2>
+			<p class="lead">
+				<a n:href="deletePicture! $picture->id_food_picture" class="ajax button" onclick="$('#image-deletion-modal-{$iterator->counter}').foundation('reveal','close')">Delete image</a>
+				<a href="#" class="button" onclick="$('#image-deletion-modal-{$iterator->counter}').foundation('reveal','close')">Cancel</a>
+			</p>
+			<a class="close-reveal-modal">&#215;</a>
+		</div>
+{/foreach}
+
 {/block}
 
 

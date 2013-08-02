@@ -114,4 +114,29 @@ class FoodsModel extends \BaseTableAccessModel
 			throw new \DatabaseException("Unable to delete all ingredients from food with id:{$id_food}");
 		}
 	}
+	
+	public function addCommentToFood($id_food, $comment, $id_user)
+	{
+		try {
+			$this->database->beginTransaction();
+			
+			$comment_data = array(
+				'comment' => $comment,
+				'id_user' => $id_user,
+			);
+			$comment = $this->database->table('comments')->insert($comment_data);
+
+			$food_comment_data = array(
+				'id_food' => $id_food,
+				'id_comment' => $comment->id_comment,
+			);
+			$this->database->table('foods_comments')->insert($food_comment_data);
+			
+			$this->database->commit();
+		} catch (Exception $e) {
+			$this->database->rollBack();
+			throw new \DatabaseException("Unable to insert comment");
+		}
+		
+	}
 }
