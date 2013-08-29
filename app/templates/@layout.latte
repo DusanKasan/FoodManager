@@ -91,11 +91,17 @@
 			{block right-nav}
 			{/block}
 			
-			<ul class="right">
+			<ul class="right">				
 			{snippet right_menu}
+				{if $user->isInRole(\UsersModule\UsersModel::ADMIN)}
+					<li>
+						<a n:href="Users:manage"><i class="icon-user"></i> User management</a>
+					</li>
+				{/if}
+			
 				{if $user->isLoggedIn()}
 					<li class="has-dropdown">
-						<a href="#">{$user->identity->username} <i class="icon-cog"></i></a>
+						<a href="#"><i class="icon-cog"></i> {$user->identity->username}</a>
 						<ul class="dropdown">
 							<li><a n:href="logout!" class="ajax">Log out</a></li>
 <!--							<li><a href="#">Options</a></li>-->

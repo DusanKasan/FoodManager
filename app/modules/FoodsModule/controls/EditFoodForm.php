@@ -92,6 +92,12 @@ class EditFoodForm extends \Nette\Application\UI\Form
 		$submit->getControlPrototype()->class = 'button';
 	}
 
+	/**
+	 * Submit callback
+	 * 
+	 * @param \Nette\Forms\Controls\SubmitButton $submit_button
+	 * @throws Exception 
+	 */
     public function editFoodFormSubmitted(\Nette\Forms\Controls\SubmitButton $submit_button)
 	{
 		$files = $this->getHttpRequest()->getFiles();

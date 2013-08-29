@@ -36,7 +36,18 @@ class UsersPresenter extends \BasePresenter
 	 */
 	public function renderManage()
 	{
+		if (!$this->user->isInRole(Roles::ADMIN)) {
+			//throw new \UnauthorizedException;
+		}
+		
 		$this->template->users = $this->context->users_model->getAll();
+		
+		foreach ($this->template->users as $user) {
+			$user->roles = array();
+			foreach ($user->related('role') as $role) {
+				$user->roles[] = $role->role->role;
+			}
+		}
 	}
 	
 	/**
@@ -49,7 +60,8 @@ class UsersPresenter extends \BasePresenter
 		if ($this->user->isInRole(\UsersModule\UsersModel::ADMIN)) {
 			try {
 				$this->context->users_model->deleteOne($id_user);
-				$this->context->logger-->log("User with id_user:{$id_user} deleted");
+				$this->context->logger->log("User with id_user:{$id_user} deleted");
+				$this->invalidateControl('users-manage');
 			} catch (DatabaseException $exception) {
 				$this->flashMessage('Deleting user falied', 'error');
 				$this->context->logger->setLogType('error')->log("Unable to delete user with id_user:{$id_user}");
@@ -65,11 +77,12 @@ class UsersPresenter extends \BasePresenter
 	 * @param integer $id_user 
 	 */
 	public function handlePromote($id_user)
-	{
+	{		
 		if ($this->user->isInRole(\UsersModule\UsersModel::ADMIN)) {
 			try {				
 				$this->context->users_model->promote($id_user);
-				$this->context->logger-->log("User with id_user:{$id_user} promoted");
+				$this->context->logger->log("User with id_user:{$id_user} promoted");
+				$this->invalidateControl('users-manage');
 			} catch (DatabaseException $exception) {
 				$this->flashMessage('Promoting user falied', 'error');
 				$this->context->logger->setLogType('error')->log("Unable to promote user with id_user:{$id_user}");
@@ -80,15 +93,18 @@ class UsersPresenter extends \BasePresenter
 	}
 	
 	/**
-	 * Strip oneself of admin privileges
+	 * Strip user of admin privileges
+	 * 
+	 * @param integer $id_user
 	 */
-	public function handleDemote()
+	public function handleDemote($id_user)
 	{
 		if ($this->user->isInRole(\UsersModule\UsersModel::ADMIN)) {
 			try {
-				$this->context->users_model->demote($this->user->id);
-				$this->context->logger-->log("User with id_user:{$id_user} demoted");
-			} catch (DatabaseException $exception) {
+				$this->context->users_model->demote($id_user);
+				$this->context->logger->log("User with id_user:{$id_user} demoted");
+				$this->invalidateControl('users-manage');
+		} catch (DatabaseException $exception) {
 				$this->flashMessage('Demoting user falied', 'error');
 				$this->context->logger->setLogType('error')->log("Unable to demote user with id_user:{$id_user}");
 			}

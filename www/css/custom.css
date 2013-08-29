@@ -189,6 +189,16 @@ blockquote:hover>footer>span.hideable{
 	display:inline;
 }
 
+.clearing-thumbs img {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.user-actions {
+	text-align: center;
+	width: 10%;
+}
+
 /*------------Big screens-----------------*/
 @media all and (min-width: 60em) {
   .clearing-thumbs {

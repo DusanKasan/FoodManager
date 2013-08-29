@@ -9,8 +9,8 @@ namespace UsersModule;
  */
 class UsersModel extends \BaseTableAccessModel
 {	
-	const ADMIN = 1;
-	const USER = 2;
+	const ADMIN = 'admin';
+	const USER = 'user';
 	
 	/**
 	 * @var string 
@@ -51,8 +51,17 @@ class UsersModel extends \BaseTableAccessModel
 		}
 	}
 	
+	/**
+	 * Recover user password, sends password.
+	 * @todo: send password
+	 * 
+	 * @param type $username
+	 * @param type $email
+	 * @param \MailModule\MailerModel $mailer
+	 * @throws \Nette\InvalidArgumentException 
+	 */
 	public function recoverPassword($username, $email, \MailModule\MailerModel $mailer)
-	{
+	{		
 		$conditions = array(
 			'username' => $username,
 			'email' => $email,
@@ -71,5 +80,35 @@ class UsersModel extends \BaseTableAccessModel
 		$this->database->table('users')->where($conditions)->update($new_password);
 		
 		$mailer->sendPasswordRetrievalMail($email, $username, $plaintext_pass);
+	}
+	
+	/**
+	 * Promotes user with $id_user to admin
+	 * 
+	 * @param integer $id_user 
+	 */
+	public function promote($id_user)
+	{
+		$data = array(
+			'id_user' => $id_user,
+			'id_role' => $this->database->table('roles')->where('role = ?', self::ADMIN)->fetch()->id_role,
+		);
+		
+		$this->database->table('users_roles')->insert($data);
+	}
+	
+	/**
+	 * Demotes user with $id_user to normal user
+	 * 
+	 * @param integer $id_user 
+	 */
+	public function demote($id_user)
+	{
+		$data = array(
+			'id_user' => $id_user,
+			'id_role' => $this->database->table('roles')->where('role = ?', self::ADMIN)->fetch()->id_role,
+		);
+				
+		$this->database->table('users_roles')->where($data)->delete();
 	}
 }

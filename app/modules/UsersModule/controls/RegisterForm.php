@@ -49,11 +49,11 @@ class RegisterForm extends \Nette\Application\UI\Form
 			$this->presenter->flashMessage('Problem creating User! Maybe this username already exists!', 'warning');
 		}
 		
-		try {
-			$context->mailer_model->sendWelcomeMail($email, $username, $password);
-		} catch (\Nette\InvalidStateException $exception) {
-			$context->logger->setLogType('error')->log('Unable to send mail!', $exception->getMessage());
-		}
+//		try {
+//			$context->mailer_model->sendWelcomeMail($email, $username, $password);
+//		} catch (\Nette\InvalidStateException $exception) {
+//			$context->logger->setLogType('error')->log('Unable to send mail!', $exception->getMessage());
+//		}
 		
 		if (!$this->presenter->hasFlashSession()) {
 			$this->presenter->redirect('Foods:list');

@@ -1,0 +1,38 @@
+{block content}
+{snippet users-manage}
+
+<table id="foods-list">
+	<tr>
+		<th>Username</th>
+		<th>Actions</th>
+	</tr>
+
+{foreach $users as $user}
+	<tr>
+		<td>
+			{$user->username}
+		</td>
+		
+		<td class="user-actions">
+			<a n:href="delete! $user->id_user" class="ajax" title="Delete user"><i class="icon-ban-circle icon-large"></i></a>
+			
+			{if in_array(\UsersModule\UsersModel::ADMIN, $user->roles)}
+				<a n:href="demote! $user->id_user" class="ajax" title="Demote user to user level"><i class="icon-circle-arrow-down icon-large"></i></a> 
+ 			{/if}
+			
+			{if !in_array(\UsersModule\UsersModel::ADMIN, $user->roles)}
+				<a n:href="promote! $user->id_user" class="ajax" title="Promote user to admin"><i class="icon-circle-arrow-up icon-large"></i></a>
+			{/if}
+		</td>
+	</tr>
+{/foreach}
+
+</table>
+
+{/snippet}
+{/block}
+
+
+{block head}
+
+{/block}

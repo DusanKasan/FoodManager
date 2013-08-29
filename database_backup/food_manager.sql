@@ -206,9 +206,10 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 CREATE TABLE IF NOT EXISTS `users_roles` (
+  `id_user_role` int(11) NOT NULL AUTO_INCREMENT,
   `id_user` int(11) NOT NULL,
   `id_role` int(11) NOT NULL,
-  PRIMARY KEY (`id_user`,`id_role`),
+  PRIMARY KEY (`id_user_role`),
   KEY `id_role` (`id_role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -278,3 +279,11 @@ ALTER TABLE `users_roles`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+INSERT INTO  `food_manager`.`roles` (
+	`id_role` ,
+	`role`
+)
+VALUES 
+	(1 ,  'admin'),
+	(2 ,  'user');

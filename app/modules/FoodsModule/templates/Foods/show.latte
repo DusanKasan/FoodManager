@@ -73,7 +73,7 @@
 				</span>
 				<hr>
 			</div>	
-				
+			
 			<div class="row">
 				<h5>Comments:</h5>
 				<div class="large-12 columns">
@@ -87,13 +87,14 @@
 							</div>
 						{/foreach}
 					
-				
+						{if $user->isLoggedIn()}
 						<div class="row">
 							{form addCommentForm}
 								{input food_comment}
 								{input save_comment}
 							{/form}
 						</div>
+						{/if}
 					{/snippet}
 				</div>
 			</div>
