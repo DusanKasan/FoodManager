@@ -41,7 +41,7 @@ class UsersModel extends \BaseTableAccessModel
 			$this->database->query(
 					'INSERT INTO users_roles (id_user, id_role) VALUES (?, ?)', 
 					$this->database->lastInsertId(),
-					self::USER
+					$this->database->table('roles')->where('role', self::USER)->fetch()->id_role
 			);
 
 			$this->database->commit();		

@@ -14,7 +14,7 @@
 		</td>
 		
 		<td class="user-actions">
-			<a n:href="delete! $user->id_user" class="ajax" title="Delete user"><i class="icon-ban-circle icon-large"></i></a>
+			<a href="#" title="Delete this user" data-reveal-id="delete-user-modal-{$user->id_user}" class="action"><i class="icon-ban-circle icon-large"></i></a>
 			
 			{if in_array(\UsersModule\UsersModel::ADMIN, $user->roles)}
 				<a n:href="demote! $user->id_user" class="ajax" title="Demote user to user level"><i class="icon-circle-arrow-down icon-large"></i></a> 
@@ -29,7 +29,21 @@
 
 </table>
 
+{foreach $users as $user}
+	<div id="delete-user-modal-{$user->id_user}" class="reveal-modal">
+	<h2>Confirm user deletion</h2>
+	<p>Do you really want to delete <strong>{$user->username}</strong>?</p>
+	<p>
+		<a n:href="delete! $user->id_user" title="Delete user" class="ajax secondary button">Delete</a>
+		<a class="secondary button" onclick="$(this).closest('.reveal-modal').foundation('reveal','close')">Close</a>
+	</p>
+	<a class="close-reveal-modal">&#215;</a>
+	</div>
+{/foreach}
 {/snippet}
+
+
+
 {/block}
 
 

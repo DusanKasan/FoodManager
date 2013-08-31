@@ -199,6 +199,10 @@ blockquote:hover>footer>span.hideable{
 	width: 10%;
 }
 
+#foods-list tr:first-of-type {
+	background-color: #DDD;
+}
+
 /*------------Big screens-----------------*/
 @media all and (min-width: 60em) {
   .clearing-thumbs {
