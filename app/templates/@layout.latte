@@ -51,7 +51,7 @@
 				<li class="has-dropdown"><a n:href="#">Browse</a>
 					<ul class="dropdown">
 						<li><a n:href="Foods:list"><i class="icon-list-ul"></i> All food</a></li>
-						<li><a n:href="Foods:categories"><i class="icon-list-ul"></i> Food Categories</a></li>
+						<li><a n:href="Foods:categories"><i class="icon-folder-open"></i> Food Categories</a></li>
 						{if $user->isLoggedIn()}
 <!--							<li><a href="#"><i class="icon-star"></i> Favorites</a></li>-->
 							<li><a n:href="Foods:list id_user => $user->id"><i class="icon-star"></i> My Foods</a></li>
@@ -99,6 +99,7 @@
 							<ul class="dropdown">
 								<li><a n:href="Users:manage"><i class="icon-user"></i> User management</a></li>
 								<li><a n:href="Tags:manage"><i class="icon-tags"></i> Tags/Categories management</a></li>
+								<li><a n:href="Ingredients:manage"><i class="icon-beaker"></i> Ingredients management</a></li>
 							</ul>
 						</li>
 					{/if}
@@ -113,8 +114,8 @@
 				{/if}
 				
 				{if !$user->isLoggedIn()}
-					<li><a n:href="Users:login">Log in</a></li>
-					<li><a n:href="Users:register">Register</a></li>	
+					<li><a n:href="Users:login"><i class="icon-signin"></i>  Log in</a></li>
+					<li><a n:href="Users:register"><i class="icon-user"></i>  Register</a></li>	
 				{/if}
 			{/snippet}
 			</ul>

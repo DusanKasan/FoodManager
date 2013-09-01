@@ -1,0 +1,47 @@
+{block content}
+{snippet ingredients-manage}
+
+<table id="foods-list">
+	<thead>
+		<tr>
+			<th>Ingredient</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+
+	<tbody>
+{foreach $ingredients as $ingredient}
+	<tr>
+		<td>
+			{$ingredient->ingredient}
+		</td>
+		
+		<td class="actions">	
+			<a href="#" title="Delete this ingredient" data-reveal-id="delete-ingredient-modal-{$ingredient->id_ingredient}" class="action"><i class="icon-ban-circle icon-large"></i></a>
+		</td>
+	</tr>
+{/foreach}
+	</tbody>
+</table>
+
+{foreach $ingredients as $ingredient}
+	<div id="delete-ingredient-modal-{$ingredient->id_ingredient}" class="reveal-modal small">
+	<h2>Confirm ingredient deletion</h2>
+	<p>Do you really want to delete <strong>{$ingredient->ingredient}</strong>?</p>
+	<p>
+		<a n:href="delete! $ingredient->id_ingredient" title="Delete ingredient" class="ajax secondary button"  onclick="$(this).closest('.reveal-modal').foundation('reveal','close')">Delete</a>
+		<a class="secondary button" onclick="$(this).closest('.reveal-modal').foundation('reveal','close')">Close</a>
+	</p>
+	<a class="close-reveal-modal">&#215;</a>
+	</div>
+{/foreach}
+{/snippet}
+
+
+
+{/block}
+
+
+{block head}
+
+{/block}

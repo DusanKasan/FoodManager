@@ -199,7 +199,7 @@ blockquote:hover>footer>span.hideable{
 	width: 10%;
 }
 
-#foods-list tr:first-of-type {
+#foods-list thead {
 	background-color: #DDD;
 }
 

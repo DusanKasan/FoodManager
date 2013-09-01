@@ -24,4 +24,29 @@ class IngredientsPresenter extends \BasePresenter
 		
 		$this->sendResponse(new \Nette\Application\Responses\JsonResponse(array_values($ingredients)));
 	}
+	
+	public function renderManage()
+	{
+		if ($this->user->isInRole(\UsersModule\UsersModel::ADMIN)) {
+			$this->template->ingredients = $this->context->ingredients_model->getAll();
+		} else {
+			throw new UnauthorizedException();
+		}
+	}
+	
+	public function handleDelete($id_ingredient)
+	{
+		if ($this->user->isInRole(\UsersModule\UsersModel::ADMIN)) {
+			try {
+				$this->context->ingredients_model->deleteOne($id_ingredient);
+				$this->context->logger->log("Ingredient with id:{$id_ingredient} deleted");
+				$this->invalidateControl('ingredients-manage');
+			} catch (DatabaseException $exception) {
+				$this->flashMessage('Deleting ingredient falied', 'error');
+				$this->context->logger->setLogType('error')->log("Unable to delete ingredient with id:{$id_ingredient}");
+			}
+		} else {
+			throw new UnauthorizedException();
+		}
+	}
 }

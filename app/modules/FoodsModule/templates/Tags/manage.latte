@@ -2,11 +2,14 @@
 {snippet tags-manage}
 
 <table id="foods-list">
-	<tr>
-		<th>Tag</th>
-		<th>Actions</th>
-	</tr>
+	<thead>
+		<tr>
+			<th>Tag</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
 
+	<tbody>
 {foreach $tags as $tag}
 	<tr>
 		<td>
@@ -26,6 +29,8 @@
 		</td>
 	</tr>
 {/foreach}
+	</tbody>
+
 </table>
 
 {foreach $tags as $tag}

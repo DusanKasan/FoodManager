@@ -2,11 +2,14 @@
 {snippet users-manage}
 
 <table id="foods-list">
-	<tr>
-		<th>Username</th>
-		<th>Actions</th>
-	</tr>
+	<thead>
+		<tr>
+			<th>Username</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
 
+	<tbody>
 {foreach $users as $user_data}
 	<tr>
 		<td>
@@ -28,6 +31,7 @@
 		</td>
 	</tr>
 {/foreach}
+	</tbody>
 
 </table>
 
