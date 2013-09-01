@@ -7,21 +7,23 @@
 		<th>Actions</th>
 	</tr>
 
-{foreach $users as $user}
+{foreach $users as $user_data}
 	<tr>
 		<td>
-			{$user->username}
+			{$user_data->username}
 		</td>
 		
-		<td class="user-actions">
-			<a href="#" title="Delete this user" data-reveal-id="delete-user-modal-{$user->id_user}" class="action"><i class="icon-ban-circle icon-large"></i></a>
-			
-			{if in_array(\UsersModule\UsersModel::ADMIN, $user->roles)}
-				<a n:href="demote! $user->id_user" class="ajax" title="Demote user to user level"><i class="icon-circle-arrow-down icon-large"></i></a> 
- 			{/if}
-			
-			{if !in_array(\UsersModule\UsersModel::ADMIN, $user->roles)}
-				<a n:href="promote! $user->id_user" class="ajax" title="Promote user to admin"><i class="icon-circle-arrow-up icon-large"></i></a>
+		<td class="actions">	
+			{if $user->id != $user_data->id_user}
+				<a href="#" title="Delete this user" data-reveal-id="delete-user-modal-{$user_data->id_user}" class="action"><i class="icon-ban-circle icon-large"></i></a>
+
+				{if in_array(\UsersModule\UsersModel::ADMIN, $user_data->roles)}
+					<a n:href="demote! $user_data->id_user" class="ajax" title="Demote user to user level"><i class="icon-circle-arrow-down icon-large"></i></a> 
+				{/if}
+
+				{if !in_array(\UsersModule\UsersModel::ADMIN, $user_data->roles)}
+					<a n:href="promote! $user_data->id_user" class="ajax" title="Promote user to admin"><i class="icon-circle-arrow-up icon-large"></i></a>
+				{/if}
 			{/if}
 		</td>
 	</tr>
@@ -29,12 +31,12 @@
 
 </table>
 
-{foreach $users as $user}
-	<div id="delete-user-modal-{$user->id_user}" class="reveal-modal">
+{foreach $users as $user_data}
+	<div id="delete-user-modal-{$user_data->id_user}" class="reveal-modal small">
 	<h2>Confirm user deletion</h2>
-	<p>Do you really want to delete <strong>{$user->username}</strong>?</p>
+	<p>Do you really want to delete <strong>{$user_data->username}</strong>?</p>
 	<p>
-		<a n:href="delete! $user->id_user" title="Delete user" class="ajax secondary button">Delete</a>
+		<a n:href="delete! $user_data->id_user" title="Delete user" class="ajax secondary button"  onclick="$(this).closest('.reveal-modal').foundation('reveal','close')">Delete</a>
 		<a class="secondary button" onclick="$(this).closest('.reveal-modal').foundation('reveal','close')">Close</a>
 	</p>
 	<a class="close-reveal-modal">&#215;</a>

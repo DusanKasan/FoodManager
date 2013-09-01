@@ -38,19 +38,4 @@ class FoodsPicturesModel extends \BaseTableAccessModel
 		
 		return $result;
 	}
-	
-	/**
-	 * Deletes picture with $id_food_picture
-	 * 
-	 * @param type $id_food_picture
-	 * 
-	 * @throws \DatabaseException 
-	 */
-	public function deleteFoodPicture($id_food_picture)
-	{
-		$result = $this->database->table($this->table)->get($id_food_picture)->delete();
-		if (FALSE === $result) {
-			throw new \DatabaseException("Unable to delete from foods_pictures row with id {$id_food_picture}");
-		}
-	}
 }

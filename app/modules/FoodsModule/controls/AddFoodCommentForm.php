@@ -43,6 +43,11 @@ class AddFoodCommentForm extends \Nette\Application\UI\Form
 		$submit->getControlPrototype()->class = 'button';
 	}
 
+	/**
+	 * Submit callback 
+	 * 
+	 * @param \Nette\Forms\Controls\SubmitButton $submit_button 
+	 */
     public function addFoodCommentFormSubmitted(\Nette\Forms\Controls\SubmitButton $submit_button)
 	{
 		$form = $submit_button->form;
@@ -53,7 +58,11 @@ class AddFoodCommentForm extends \Nette\Application\UI\Form
 				
 		try {
 			$context->foods_model->addCommentToFood($this->food->id_food, $food_comment, $id_user);
+			$context->logger->log('Comment added to food with id:', $this->food->id_food, '. Comment:', $food_comment);
 		} catch (\DatabaseException $exception) {
+			$context->logger
+					->setLogType(\Logger\ILogger::TYPE_ERROR)
+					->log('Unable to add comment to food with id:', $this->food->id_food, '. Comment:', $food_comment, '. Error:', $exception->getMessage());
 			$this->presenter->flashMessage('Unable to add food comment. DB Error.');
 		}
 		

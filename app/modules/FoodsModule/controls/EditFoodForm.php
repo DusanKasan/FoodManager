@@ -111,6 +111,8 @@ class EditFoodForm extends \Nette\Application\UI\Form
 		$ingredients = $form->getValues()->ingredients;
 		$tags = json_decode($form->getValues()->tags);
 				
+		$food_original = $context->foods_model->getOne($this->id_food)->toArray();
+		
 		$food_data = array(
 			'food' => $food_name,
 			'description' => $description,
@@ -152,10 +154,14 @@ class EditFoodForm extends \Nette\Application\UI\Form
 			}
 			
 			$context->database->commit();
+			$food_final = $context->foods_model->getOne($this->id_food)->toArray();						
+						
+			$context->logger->log('Food with id:', $this->id_food, 'edited.', array_diff($food_final, $food_original)); //TODO:Check if food was created or edited
 		} catch (\Exception $exception) {
 			throw $exception;
 			$context->database->rollBack();
 			$this->presenter->flashMessage('Unable to add food. Wrong data supplied. DB Error.');
+			$context->logger->setLogType(\Logger\ILogger::TYPE_ERROR)->log('Unable to edit food.', $food_original);
 			$this->presenter->redirect('Foods:edit', $this->id_food);
 		}
 		

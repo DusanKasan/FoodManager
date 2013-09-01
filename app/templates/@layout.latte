@@ -62,7 +62,7 @@
 				{if $user->isLoggedIn()}
 					<li class="divider"></li>
 					<li>
-						<a n:href="Foods:add">Add food</a>
+						<a n:href="Foods:add"><i class="icon-food icon-large"></i> Add food</a>
 					</li>
 				{/if}
 				
@@ -93,13 +93,16 @@
 			
 			<ul class="right">				
 			{snippet right_menu}
-				{if $user->isInRole(\UsersModule\UsersModel::ADMIN)}
-					<li>
-						<a n:href="Users:manage"><i class="icon-user"></i> User management</a>
-					</li>
-				{/if}
-			
 				{if $user->isLoggedIn()}
+					{if $user->isInRole(\UsersModule\UsersModel::ADMIN)}
+						<li class="has-dropdown"><a n:href="#"><i class="icon-cogs"></i> Administration</a>
+							<ul class="dropdown">
+								<li><a n:href="Users:manage"><i class="icon-user"></i> User management</a></li>
+								<li><a n:href="Tags:manage"><i class="icon-tags"></i> Tags/Categories management</a></li>
+							</ul>
+						</li>
+					{/if}
+					
 					<li class="has-dropdown">
 						<a href="#"><i class="icon-cog"></i> {$user->identity->username}</a>
 						<ul class="dropdown">
@@ -110,13 +113,8 @@
 				{/if}
 				
 				{if !$user->isLoggedIn()}
-					<li class="has-dropdown">
-						<a href="#"><i class="icon-lock"></i> Account</a>
-						<ul class="dropdown">
-							<li><a n:href="Users:login">Log in</a></li>
-							<li><a n:href="Users:register">Register</a></li>
-						</ul>
-					</li>
+					<li><a n:href="Users:login">Log in</a></li>
+					<li><a n:href="Users:register">Register</a></li>	
 				{/if}
 			{/snippet}
 			</ul>

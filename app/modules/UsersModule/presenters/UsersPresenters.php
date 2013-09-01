@@ -57,7 +57,7 @@ class UsersPresenter extends \BasePresenter
 	 */
 	public function handleDelete($id_user)
 	{
-		if ($this->user->isInRole(\UsersModule\UsersModel::ADMIN)) {
+		if ($this->user->isInRole(\UsersModule\UsersModel::ADMIN) && $this->user->id != $id_user) {
 			try {
 				$this->context->users_model->deleteOne($id_user);
 				$this->context->logger->log("User with id_user:{$id_user} deleted");
@@ -78,7 +78,7 @@ class UsersPresenter extends \BasePresenter
 	 */
 	public function handlePromote($id_user)
 	{		
-		if ($this->user->isInRole(\UsersModule\UsersModel::ADMIN)) {
+		if ($this->user->isInRole(\UsersModule\UsersModel::ADMIN) && $this->user->id != $id_user) {
 			try {				
 				$this->context->users_model->promote($id_user);
 				$this->context->logger->log("User with id_user:{$id_user} promoted");
@@ -99,7 +99,7 @@ class UsersPresenter extends \BasePresenter
 	 */
 	public function handleDemote($id_user)
 	{
-		if ($this->user->isInRole(\UsersModule\UsersModel::ADMIN)) {
+		if ($this->user->isInRole(\UsersModule\UsersModel::ADMIN) && $this->user->id != $id_user) {
 			try {
 				$this->context->users_model->demote($id_user);
 				$this->context->logger->log("User with id_user:{$id_user} demoted");

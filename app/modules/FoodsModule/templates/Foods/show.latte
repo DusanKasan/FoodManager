@@ -1,9 +1,9 @@
 {block content}
-<div id="delete-modal" class="reveal-modal">
+<div id="delete-modal" class="reveal-modal small">
   <h2>Confirm food deletion</h2>
   <p>Do you really want to delete <strong>{ucfirst($food->food)}</strong>?</p>
   <p>
-	  <a n:href="delete!" class="secondary button">Delete</a>
+	  <a n:href="delete!" class="ajax secondary button">Delete</a>
 	<a class="secondary button" onclick="$('#delete-modal').foundation('reveal','close')">Close</a>
   </p>
   <a class="close-reveal-modal">&#215;</a>
@@ -82,7 +82,7 @@
 							<div class="row">
 								<blockquote>
 									<p>{$comment->comment->comment}</p>
-									<footer>{$comment->comment->user->username}<span class="hideable"> ({$comment->comment->added_at})</span></footer>
+									<footer><span class="hideable"> ({$comment->comment->added_at})</span> {$comment->comment->user->username}</footer>
 								</blockquote>
 							</div>
 						{/foreach}

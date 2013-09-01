@@ -1,0 +1,51 @@
+{block content}
+{snippet tags-manage}
+
+<table id="foods-list">
+	<tr>
+		<th>Tag</th>
+		<th>Actions</th>
+	</tr>
+
+{foreach $tags as $tag}
+	<tr>
+		<td>
+			{$tag->tag}
+		</td>
+		
+		<td class="actions">	
+			<a href="#" title="Delete this tag" data-reveal-id="delete-tag-modal-{$tag->id_tag}" class="action"><i class="icon-ban-circle icon-large"></i></a>
+
+			{if $tag->is_category == 1}
+				<a n:href="demote! $tag->id_tag" class="ajax" title="Demote tag to basic state"><i class="icon-circle-arrow-down icon-large"></i></a> 
+			{/if}
+
+			{if $tag->is_category == 0}
+				<a n:href="promote! $tag->id_tag" class="ajax" title="Promote tag to category"><i class="icon-circle-arrow-up icon-large"></i></a>
+			{/if}
+		</td>
+	</tr>
+{/foreach}
+</table>
+
+{foreach $tags as $tag}
+	<div id="delete-tag-modal-{$tag->id_tag}" class="reveal-modal small">
+	<h2>Confirm tag deletion</h2>
+	<p>Do you really want to delete <strong>{$tag->tag}</strong>?</p>
+	<p>
+		<a n:href="delete! $tag->id_tag" title="Delete tag" class="ajax secondary button"  onclick="$(this).closest('.reveal-modal').foundation('reveal','close')">Delete</a>
+		<a class="secondary button" onclick="$(this).closest('.reveal-modal').foundation('reveal','close')">Close</a>
+	</p>
+	<a class="close-reveal-modal">&#215;</a>
+	</div>
+{/foreach}
+{/snippet}
+
+
+
+{/block}
+
+
+{block head}
+
+{/block}

@@ -107,6 +107,11 @@ class FoodsPresenter extends \BasePresenter
 		//---------------/Hack pre paginator
 	}
 	
+	/**
+	 * Render add
+	 * 
+	 * @throws \UnauthorizedException 
+	 */
 	public function renderAdd()
 	{
 		if (!$this->user->isLoggedIn()) {
@@ -123,9 +128,14 @@ class FoodsPresenter extends \BasePresenter
 		$this->redirect('Foods:edit', array('id' => $new_food->id_food));
 	}
 	
+	/**
+	 * Creates component for editing/adding foods
+	 * 
+	 * @return \FoodsModule\EditFoodForm 
+	 */
 	public function createComponentEditFoodForm()
 	{		
-		$id_food = $this->params['id'];
+		$id_food = $this->params['id']; //TODO: Preco treba params a nejde to cez argument?
 		$food = $this->presenter->context->foods_model->getOne($id_food);
 		
 		//Toto cele sa ma riesit cez control v kompoente s vlastnou sablonou!
@@ -138,9 +148,28 @@ class FoodsPresenter extends \BasePresenter
 		return new \FoodsModule\EditFoodForm($food, $ingredients);
 	}
 	
-	public function renderEdit($id)
+	/**
+	 * Creates component for adding comments
+	 * 
+	 * @return \FoodsModule\AddFoodCommentForm 
+	 */
+	public function createComponentAddCommentForm()
 	{
-		$food = $this->context->foods_model->getOne($this->params['id']);
+		$id_food = $this->params['id']; //TODO: Preco treba params a nejde to cez argument?
+		$food = $this->presenter->context->foods_model->getOne($id_food);
+		
+		return new \FoodsModule\AddFoodCommentForm($food);
+	}
+	
+	/**
+	 * Renders food edit form
+	 * 
+	 * @param type $id
+	 * @throws \UnauthorizedException 
+	 */
+	public function renderEdit($id)
+	{		
+		$food = $this->context->foods_model->getOne($id);
 		$user = $this->user;
 		
 		if (!$this->checkIsFoodOwner($user, $food)) {
@@ -158,30 +187,55 @@ class FoodsPresenter extends \BasePresenter
 		$this->template->food = $food;
 	}
 	
-	public function handleDelete()
+	/**
+	 * Delete food
+	 * 
+	 * @param integer $id
+	 * @throws \UnauthorizedException 
+	 */
+	public function handleDelete($id)
 	{
-		$food = $this->context->foods_model->getOne($this->params['id']);
+		$food = $this->context->foods_model->getOne($id);
 		$user = $this->user;
+		$is_ok = TRUE;
 		
 		if (!$this->checkIsFoodOwner($user, $food)) {
 			throw new \UnauthorizedException;
 		}
-			
-		$this->context->foods_model->deleteOne($food->id_food);
-		$this->redirect('Foods:List');	
+		
+		try {
+			$this->context->foods_model->deleteOne($food->id_food);
+			$this->context->logger->log('Deleting food.', $food);
+		}catch (Exception $exception) {
+			$is_ok = FALSE;
+			$this->context->logger
+					->setLogType(Logger\ILogger::TYPE_ERROR)
+					->log('Unable to delete food.', $food, 'Error:', $exception->getMessage());
+			$this->presenter->flashMessage('Unable to delete food.', 'warning');
+		}
+		
+		if ($is_ok) {
+			$this->redirect('Foods:list');
+		}
 	}
 	
+	/**
+	 * Delete picture from food
+	 * 
+	 * @param integer $id_food_picture 
+	 */
 	public function handleDeletePicture($id_food_picture)
 	{		
-		$this->context->foods_pictures_model->deleteFoodPicture($id_food_picture);
+		try {
+			$food_picture = $this->context->foods_pictures_model->getOne($id_food_picture);
+			$this->context->foods_pictures_model->deleteOne($id_food_picture);
+			$this->context->logger->log('Picture was deleted from food.', $food_picture);
+		}catch (Exception $exception) {
+			$this->presenter->flashMessage('Unable to delete picture.', 'warning');
+			$this->context->logger
+					->setLogType(Logger\ILogger::TYPE_ERROR)
+					->log('Unable to delete picture.', $food_picture, 'Error:', $exception->getMessage());
+		}
 		$this->invalidateControl('pictures-edit');
-	}
-	
-	public function createComponentAddCommentForm()
-	{		
-		$id_food = $this->params['id'];
-		$food = $this->presenter->context->foods_model->getOne($id_food);
-		
-		return new \FoodsModule\AddFoodCommentForm($food);
 	}
 }

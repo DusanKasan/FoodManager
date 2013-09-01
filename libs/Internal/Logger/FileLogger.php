@@ -2,7 +2,7 @@
 namespace Logger;
 
 /**
- * Description of FileLogger
+ * Logging into text file
  *
  * @author Dusan Kasan <dusan@kasan.sk>
  */
@@ -92,7 +92,9 @@ class FileLogger implements ILogger
 		$loggable_data = '';
 		
 		foreach ($data as $argument) {
-			if (is_object($argument) || is_array($argument)) {
+			if (is_object($argument)) {
+				$loggable_data .= '111';//var_export(get_object_vars($argument), TRUE);
+			} elseif (is_array($argument)) {
 				$loggable_data .= var_export($argument, TRUE);
 			} else {
 				$loggable_data .= $argument;

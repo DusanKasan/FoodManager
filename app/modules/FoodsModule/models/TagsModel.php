@@ -57,9 +57,19 @@ class TagsModel extends \BaseTableAccessModel
 	 */
 	public function getCategories()
 	{
-		return $this->database->table('tags')
+		return $this->database->table($this->table)
 				->select('tags.*, count(foods_tags:id_tag) AS "number_of_foods"')
 				->where('is_category = ?', TRUE)
 				->group('id_tag');
+	}
+	
+	public function promoteTagToCategory($id_ingredient)
+	{
+		$this->getOne($id_ingredient)->update(array('is_category' => 1));
+	}
+	
+	public function demoteTagToDefault($id_ingredient)
+	{
+		$this->getOne($id_ingredient)->update(array('is_category' => 0));
 	}
 }
