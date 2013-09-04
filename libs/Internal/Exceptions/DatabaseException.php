@@ -5,8 +5,8 @@
  * @author Dusan Kasan <dusan@kasan.sk>
  */
 class DatabaseException extends \Exception {
-	public function __construct($message, $code = NULL) {
-		parent::__construct($message, $code, NULL);
+	public function __construct($message, $code = NULL, $previous = NULL) {
+		parent::__construct($message, $code, $previous);
 	}
 }
 

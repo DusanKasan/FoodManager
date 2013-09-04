@@ -24,6 +24,11 @@ class TagsPresenter extends \BasePresenter
 		$this->sendResponse(new \Nette\Application\Responses\JsonResponse(array_values($tags)));
 	}
 	
+	/**
+	 * Render tag management
+	 * 
+	 * @throws UnauthorizedException 
+	 */
 	public function renderManage()
 	{
 		if ($this->user->isInRole(\UsersModule\UsersModel::ADMIN)) {
@@ -33,6 +38,14 @@ class TagsPresenter extends \BasePresenter
 		}
 	}
 	
+	/**
+	 * Promote tag to category
+	 * 
+	 * @param integer $id_tag
+	 * 
+	 * @throws DatabaseException
+	 * @throws UnauthorizedException 
+	 */
 	public function handlePromote($id_tag)
 	{
 		if ($this->user->isInRole(\UsersModule\UsersModel::ADMIN)) {
@@ -50,6 +63,14 @@ class TagsPresenter extends \BasePresenter
 		
 	}
 	
+	/**
+	 * Demote category to tag.
+	 * 
+	 * @param integer $id_tag
+	 * 
+	 * @throws DatabaseException
+	 * @throws UnauthorizedException 
+	 */
 	public function handleDemote($id_tag)
 	{
 		if ($this->user->isInRole(\UsersModule\UsersModel::ADMIN)) {
@@ -66,6 +87,13 @@ class TagsPresenter extends \BasePresenter
 		}
 	}
 	
+	/**
+	 * Delete tag
+	 * 
+	 * @param integer $id_tag
+	 * 
+	 * @throws UnauthorizedException 
+	 */
 	public function handleDelete($id_tag)
 	{
 		if ($this->user->isInRole(\UsersModule\UsersModel::ADMIN)) {

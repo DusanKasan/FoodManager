@@ -109,7 +109,7 @@ class EditFoodForm extends \Nette\Application\UI\Form
 		$food_name = $form->getValues()->food_name;
 		$description = $form->getValues()->description;
 		$ingredients = $form->getValues()->ingredients;
-		$tags = json_decode($form->getValues()->tags);
+		$tags = array_unique(json_decode($form->getValues()->tags));
 				
 		$food_original = $context->foods_model->getOne($this->id_food)->toArray();
 		

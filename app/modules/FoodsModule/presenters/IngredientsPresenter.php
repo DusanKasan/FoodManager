@@ -4,7 +4,6 @@ use Nette\Application\UI;
 
 /**
  * Ingredients presenter
- * ATM just for ajax
  * 
  * @package FoodsModule
  * @author Dusan Kasan <dusan@kasan.sk>
@@ -25,6 +24,11 @@ class IngredientsPresenter extends \BasePresenter
 		$this->sendResponse(new \Nette\Application\Responses\JsonResponse(array_values($ingredients)));
 	}
 	
+	/**
+	 * Render ingredient management
+	 *
+	 * @throws UnauthorizedException 
+	 */
 	public function renderManage()
 	{
 		if ($this->user->isInRole(\UsersModule\UsersModel::ADMIN)) {
@@ -34,6 +38,13 @@ class IngredientsPresenter extends \BasePresenter
 		}
 	}
 	
+	/**
+	 * Delete ingredient
+	 * 
+	 * @param type $id_ingredient
+	 * 
+	 * @throws UnauthorizedException 
+	 */
 	public function handleDelete($id_ingredient)
 	{
 		if ($this->user->isInRole(\UsersModule\UsersModel::ADMIN)) {

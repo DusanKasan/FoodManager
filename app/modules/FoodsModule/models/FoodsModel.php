@@ -121,6 +121,7 @@ class FoodsModel extends \BaseTableAccessModel
 	 * @param type $id_food
 	 * @param type $comment
 	 * @param type $id_user
+	 * 
 	 * @throws \DatabaseException 
 	 */
 	public function addCommentToFood($id_food, $comment, $id_user)

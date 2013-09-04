@@ -10,7 +10,7 @@
 </div>
 
 <div class="large-12 columns food-headline">
-			<h3>{ucfirst($food->food)}
+			<h3>{ucfirst($food->food)} <span id="food-author">by <a n:href="Foods:list id_user => $food->user->id_user">{$food->user->username}</a></span>
 			{if $hasOwnerPrivilege}
 				<a href="#" title="Delete this food" data-reveal-id="delete-modal" class="action"><i class="icon-trash icon-large"></i></a>
 				<a class="action" n:href="edit id => $food->id_food"><i class="icon-pencil icon-large"></i></a>

@@ -58,18 +58,36 @@ class TagsModel extends \BaseTableAccessModel
 	public function getCategories()
 	{
 		return $this->database->table($this->table)
-				->select('tags.*, count(foods_tags:id_tag) AS "number_of_foods"')
-				->where('is_category = ?', TRUE)
-				->group('id_tag');
+			->select('tags.*, count(foods_tags:id_tag) AS "number_of_foods"')
+			->where('is_category = ?', TRUE)
+			->group('id_tag');
 	}
 	
-	public function promoteTagToCategory($id_ingredient)
+	/**
+	 * Promote tag to category
+	 * 
+	 * @param integer $id_tag 
+	 * 
+	 * @throws \DatabaseException 
+	 */
+	public function promoteTagToCategory($id_tag)
 	{
-		$this->getOne($id_ingredient)->update(array('is_category' => 1));
+		if (FALSE === $this->getOne($id_tag)->update(array('is_category' => 1))) {
+			throw new \DatabaseException('Unable to promote tag with id:' . $id_tag);
+		}
 	}
 	
-	public function demoteTagToDefault($id_ingredient)
+	/**
+	 * Demote category to tag
+	 * 
+	 * @param integer $id_tag
+	 * 
+	 * @throws \DatabaseException 
+	 */
+	public function demoteTagToDefault($id_tag)
 	{
-		$this->getOne($id_ingredient)->update(array('is_category' => 0));
+		if (FALSE === $this->getOne($id_tag)->update(array('is_category' => 0))) {
+			throw new \DatabaseException('Unable to demote tag with id:' . $id_tag);
+		}
 	}
 }

@@ -203,6 +203,10 @@ blockquote:hover>footer>span.hideable{
 	background-color: #DDD;
 }
 
+#food-author {
+	font-size: 0.6em;
+}
+
 /*------------Big screens-----------------*/
 @media all and (min-width: 60em) {
   .clearing-thumbs {
