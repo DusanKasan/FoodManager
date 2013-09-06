@@ -91,6 +91,7 @@ CREATE TABLE IF NOT EXISTS `foods_pictures` (
   `id_food_picture` int(11) NOT NULL AUTO_INCREMENT,
   `id_food` int(11) NOT NULL,
   `id_uploaded_file` int(11) NOT NULL,
+  `thumbnail_path` text COLLATE utf8_bin,
   PRIMARY KEY (`id_food_picture`),
   KEY `id_food` (`id_food`),
   KEY `id_uploaded_file` (`id_uploaded_file`)

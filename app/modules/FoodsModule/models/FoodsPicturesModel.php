@@ -24,11 +24,18 @@ class FoodsPicturesModel extends \BaseTableAccessModel
 	 * 
 	 * @throws \DatabaseException  
 	 */
-	public function addPictureToFood($id_food, $id_file)
-	{
+	public function addPictureToFood($id_food, \Nette\Database\Table\ActiveRow $file)
+	{		
+		//TODO: try catch
+		$thumbnail = \Nette\Image::fromFile($file->filename);
+		$thumbnail->resize(NULL, 300);
+		$thumbnail_path = preg_replace("/\.(?=[^.]*$)/", '_thumbnail.', $file->filename);
+		$thumbnail->save($thumbnail_path);
+		
 		$data = array(
 			'id_food' => $id_food,
-			'id_uploaded_file' => $id_file,
+			'id_uploaded_file' => $file->id_file,
+			'thumbnail_path' => $thumbnail_path,
 		);
 		
 		$result = $this->database->table($this->table)->insert($data);

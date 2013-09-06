@@ -33,7 +33,8 @@
 							class="clearing-featured-img small"
 						{/if}
 						>
-							<a href="{substr($picture->file->filename, strlen(WWW_DIR))}" ><img src="{substr($picture->file->filename, strlen(WWW_DIR))}" /></a>
+							<a href="{substr($picture->file->filename, strlen(WWW_DIR))}" >
+								<img src="{substr($picture->thumbnail_path, strlen(WWW_DIR))}" /></a>
 					</li>
 				{/foreach}
 			</ul>

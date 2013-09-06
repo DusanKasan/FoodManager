@@ -116,12 +116,16 @@ class EditFoodForm extends \Nette\Application\UI\Form
 		$food_data = array(
 			'food' => $food_name,
 			'description' => $description,
-			'id_user' => $this->presenter->user->id,
 			'is_finished' => 1,
 		);
 		
 		try {
 			$context->database->beginTransaction();
+			
+			//if food is being edited do not cange author
+			if ($context->foods_model->getOne($this->id_food)->is_finished == 0) {
+				$food_data['id_user'] = $this->presenter->user->id;
+			}
 			
 			$context->foods_model->updateOne($this->id_food, $food_data);
 			$food = $context->foods_model->getOne($this->id_food);
@@ -148,8 +152,8 @@ class EditFoodForm extends \Nette\Application\UI\Form
 			
 			foreach ($images as $image) {
 				if ($image->isOk()) {
-					$id_file = $context->uploader->upload($image, $this->presenter->user);
-					$context->foods_pictures_model->addPictureToFood($food->id_food, $id_file);
+					$file = $context->uploader->upload($image, $this->presenter->user);					
+					$context->foods_pictures_model->addPictureToFood($food->id_food, $file);
 				}
 			}
 			

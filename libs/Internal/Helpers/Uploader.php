@@ -1,5 +1,8 @@
 <?php
 /**
+ * @todo: premenovat na uploaded_files_model
+ * @todo: v konstruktore nastavit z neonu max image width/height
+ * 
  * Handling file uploads:
  * - move file to uploads directory
  * - create hash and move to right directory
@@ -13,7 +16,7 @@ class Uploader extends \BaseModel
 	 * @param Nette\Http\FileUpload $file
 	 * @param Nette\Security\User $user
 	 * 
-	 * @return integer id of file in DB
+	 * @return ActiveRow
 	 * 
 	 * @throws \Exception
 	 */
@@ -42,7 +45,14 @@ class Uploader extends \BaseModel
 			
 			if ($file->isImage()) {
 				$image = Nette\Image::fromFile($destination);
-				$image->resize(NULL, 1000);
+				
+				$width = ($image->getWidth() > 1900) ? 1900 : NULL;
+				$height = ($image->getHeight() > 1000) ? 1000 : NULL;
+				if ($height != NULL || $width != NULL) {
+					$image->resize($width, $height);
+				}
+				
+				$image->resize($width, $height);
 				$image->save($destination);
 			}
 			
@@ -55,7 +65,7 @@ class Uploader extends \BaseModel
 				$this->database->commit();
 			}
 			
-			return $file_row->id_file;
+			return $this->database->table('uploaded_files')->get($file_row->id_file);
 		} catch (\Exception $exception) {
 			if (!$had_transaction) {
 				$this->database->rollBack();

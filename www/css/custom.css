@@ -24,6 +24,7 @@ table#foods-list{
 	background-color: #CCC;
 	color: black;
 	padding: 1px 3px;
+	line-height: 1.75em;
 }
 
 table#foods-list tbody tr:hover{
