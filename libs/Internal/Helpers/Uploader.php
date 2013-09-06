@@ -52,7 +52,6 @@ class Uploader extends \BaseModel
 					$image->resize($width, $height);
 				}
 				
-				$image->resize($width, $height);
 				$image->save($destination);
 			}
 			
