@@ -22,23 +22,25 @@
 	{if $food->related('foods_pictures')->count()}
 		<div class="large-4 columns">
 			<div class="row">
-			<ul class="clearing-thumbs clearing-feature" data-clearing>
-				{foreach $food->related('foods_pictures') as $picture}
-					<li 
-						{if $iterator->isFirst()}
-							class="clearing-featured-img"
-						{/if}
-						
-						{if $iterator->counter > 1 && $iterator->counter < 4}
-							class="clearing-featured-img small"
-						{/if}
-						>
-							<a href="{substr($picture->file->filename, strlen(WWW_DIR))}" >
-								<img src="{substr($picture->thumbnail_path, strlen(WWW_DIR))}" /></a>
-					</li>
-				{/foreach}
-			</ul>
-			<hr class="show-for-small" />
+				<h5 data-tooltip class="has-tip show-for-small" title="Showing first picture, swipe in viewer for more"><i class="icon-align-left icon-picture"></i> Pictures ({$food->related('foods_pictures')->count()}):</h5>
+				<ul class="clearing-thumbs clearing-feature" data-clearing>
+					{foreach $food->related('foods_pictures') as $picture}
+						<li 
+							{if $iterator->isFirst()}
+								class="clearing-featured-img"
+							{/if}
+
+							{if $iterator->counter > 1 && $iterator->counter < 4}
+								class="clearing-featured-img small"
+							{/if}
+							>
+								<a href="{substr($picture->file->filename, strlen(WWW_DIR))}" >
+									<img src="{substr($picture->thumbnail_path, strlen(WWW_DIR))}" />
+								</a>
+						</li>
+					{/foreach}
+				</ul>
+				<hr class="show-for-small" />
 		</div></div>
 	{/if}
 	
