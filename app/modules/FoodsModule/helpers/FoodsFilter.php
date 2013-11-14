@@ -13,7 +13,8 @@ class FoodsFilter extends \Internal\Helpers\Filter
 	protected function provideParseInfo()
 	{
 		$parse_info_array = array(
-			'page' => 'page',
+            'favourited_by' => 'favourite_foods:id_user',
+ 			'page' => 'page',
 			'order_by' => 'order_by',
 			'search' => 'search',
 			'food' => 'id_food',
@@ -35,6 +36,7 @@ class FoodsFilter extends \Internal\Helpers\Filter
 			'tags:id_tag',
 			'id_user',
 			'is_finished',
+            'favourite_foods:id_user',
 		);
 		
 		return $this->exportSubset($keys_to_export);

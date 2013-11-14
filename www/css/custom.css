@@ -27,6 +27,15 @@ table#foods-list{
 	line-height: 1.75em;
 }
 
+.less-important {
+    color: #999;
+}
+
+h4.full-page-notice {
+    text-align: center;
+    padding-top: 40%;
+}
+
 table#foods-list tbody tr:hover{
 	background: #eee;
 }

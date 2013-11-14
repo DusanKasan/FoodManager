@@ -1,5 +1,6 @@
 {block content}
 
+{if $foods->count()}
 <table id="foods-list">
 	<thead>
 		<th>
@@ -12,6 +13,7 @@
 			Tags
 		</th>
 	</thead>
+
 	{foreach $foods as $food}
 	<tr>
 		<td>
@@ -48,6 +50,12 @@
 		</td>
 	</tr>
 </table>
+{/if}
+{if !$foods->count()}
+    <h4 class="full-page-notice">No results found</h4>
+{/if}
+
+
 {/block}
 
 

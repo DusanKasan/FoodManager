@@ -27,11 +27,14 @@ class FoodsPicturesModel extends \BaseTableAccessModel
 	public function addPictureToFood($id_food, \Nette\Database\Table\ActiveRow $file)
 	{		
 		//TODO: try catch
-		$thumbnail = \Nette\Image::fromFile($file->filename);
-		$thumbnail->resize(NULL, 300);
-		$thumbnail_path = preg_replace("/\.(?=[^.]*$)/", '_thumbnail.', $file->filename);
-		$thumbnail->save($thumbnail_path);
-		
+        $thumbnail_path = preg_replace("/\.(?=[^.]*$)/", '_thumbnail.', $file->filename);
+        if (!file_exists($thumbnail_path)) {
+            $thumbnail = \Nette\Image::fromFile($file->filename);
+            $thumbnail->resize(NULL, 300);
+
+            $thumbnail->save($thumbnail_path);
+        }
+
 		$data = array(
 			'id_food' => $id_food,
 			'id_uploaded_file' => $file->id_file,

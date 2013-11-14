@@ -54,7 +54,8 @@
 						<li><a n:href="Foods:categories"><i class="icon-folder-open"></i> Food Categories</a></li>
 						{if $user->isLoggedIn()}
 <!--							<li><a href="#"><i class="icon-star"></i> Favorites</a></li>-->
-							<li><a n:href="Foods:list id_user => $user->id"><i class="icon-star"></i> My Foods</a></li>
+                            <li><a n:href="Foods:list id_user => $user->id"><i class="icon-user"></i> My Foods</a></li>
+                            <li><a n:href="Foods:list favourited_by => $user->id"><i class="icon-star"></i> Favourite foods</a></li>
 						{/if}
 					</ul>
 				</li>

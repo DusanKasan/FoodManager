@@ -22,7 +22,7 @@ class FoodsModel extends \BaseTableAccessModel
 	 * @return \Nette\Database\Table\Selection 
 	 */
 	public function getFoods(FoodsFilter $filter)
-	{		
+	{
 		$search = $filter->get('search', FALSE);
 		$order = $filter->get('order_by', 'added_at DESC');
 		$filter->setDefault('is_finished', 1);
@@ -148,4 +148,43 @@ class FoodsModel extends \BaseTableAccessModel
 		}
 		
 	}
+
+    public function favouriteFood($id_user, $id_food)
+    {
+        $data = array(
+            'id_food' => $id_food,
+            'id_user' => $id_user,
+        );
+
+        $result = $this->database->table('favourite_foods')->insert($data);
+        if (FALSE === $result) {
+            throw new \DatabaseException("Unable to insert to favourite_foods using data: " . var_export($data, TRUE));
+        }
+
+        return $result;
+    }
+
+    public function unfavouriteFood($id_user, $id_food)
+    {
+        $data = array(
+            'id_food' => $id_food,
+            'id_user' => $id_user,
+        );
+
+        $result = $this->database->table('favourite_foods')->where($data)->delete();
+
+        return $result;
+    }
+
+    public function isFavourite($id_user, $id_food)
+    {
+        $data = array(
+            'id_user' => $id_user,
+            'id_food' => $id_food,
+        );
+
+        $result = $this->database->table('favourite_foods')->where($data)->count();
+
+        return $result;
+    }
 }

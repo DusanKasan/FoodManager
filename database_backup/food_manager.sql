@@ -1,9 +1,9 @@
--- phpMyAdmin SQL Dump
+﻿-- phpMyAdmin SQL Dump
 -- version 3.5.1
 -- http://www.phpmyadmin.net
 --
 -- Hostiteľ: localhost
--- Vygenerované: Po 10.Jún 2013, 21:49
+-- Vygenerované: Št 14.Nov 2013, 23:00
 -- Verzia serveru: 5.5.24-log
 -- Verzia PHP: 5.4.3
 
@@ -33,7 +33,23 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `id_user` int(11) NOT NULL,
   PRIMARY KEY (`id_comment`),
   KEY `id_user` (`id_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=4 ;
+
+-- --------------------------------------------------------
+
+--
+-- Štruktúra tabuľky pre tabuľku `favourite_foods`
+--
+
+CREATE TABLE IF NOT EXISTS `favourite_foods` (
+  `id_favourite_food` int(11) NOT NULL AUTO_INCREMENT,
+  `id_food` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  PRIMARY KEY (`id_favourite_food`),
+  KEY `id_food` (`id_food`),
+  KEY `id_food_2` (`id_food`),
+  KEY `id_user` (`id_user`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
 
 -- --------------------------------------------------------
 
@@ -50,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `foods` (
   `is_finished` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_food`),
   KEY `id_user` (`id_user`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=90 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=136 ;
 
 -- --------------------------------------------------------
 
@@ -79,7 +95,7 @@ CREATE TABLE IF NOT EXISTS `foods_ingredients` (
   PRIMARY KEY (`id_food_ingredient`),
   KEY `id_food` (`id_food`,`id_ingredient`),
   KEY `id_ingredient` (`id_ingredient`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=81 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=12 ;
 
 -- --------------------------------------------------------
 
@@ -91,11 +107,11 @@ CREATE TABLE IF NOT EXISTS `foods_pictures` (
   `id_food_picture` int(11) NOT NULL AUTO_INCREMENT,
   `id_food` int(11) NOT NULL,
   `id_uploaded_file` int(11) NOT NULL,
-  `thumbnail_path` text COLLATE utf8_bin,
+  `thumbnail_path` text COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id_food_picture`),
   KEY `id_food` (`id_food`),
   KEY `id_uploaded_file` (`id_uploaded_file`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=27 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=36 ;
 
 -- --------------------------------------------------------
 
@@ -110,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `foods_tags` (
   PRIMARY KEY (`id_food_tag`),
   KEY `id_tag` (`id_tag`),
   KEY `foods_tags_ibfk_1` (`id_food`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=48 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=75 ;
 
 -- --------------------------------------------------------
 
@@ -123,7 +139,7 @@ CREATE TABLE IF NOT EXISTS `ingredients` (
   `ingredient` text COLLATE utf8_bin NOT NULL,
   `match` text COLLATE utf8_bin NOT NULL COMMENT 'Match this after iconv ASCII//TRANSLIT',
   PRIMARY KEY (`id_ingredient`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=35 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=37 ;
 
 -- --------------------------------------------------------
 
@@ -150,7 +166,7 @@ CREATE TABLE IF NOT EXISTS `roles_resources_privileges` (
   `privilege` enum('create','view','edit','remove') COLLATE utf8_bin NOT NULL DEFAULT 'view',
   PRIMARY KEY (`id_role_resource_privilege`),
   UNIQUE KEY `unique_role_resource_privilege` (`id_role`,`resource`,`privilege`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -164,7 +180,7 @@ CREATE TABLE IF NOT EXISTS `tags` (
   `match` text COLLATE utf8_bin NOT NULL COMMENT 'Match this after iconv to ASCII//TRANSLIT',
   `is_category` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'is this tag a category',
   PRIMARY KEY (`id_tag`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Table of tags and category flags' AUTO_INCREMENT=25 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Table of tags and category flags' AUTO_INCREMENT=33 ;
 
 -- --------------------------------------------------------
 
@@ -181,7 +197,7 @@ CREATE TABLE IF NOT EXISTS `uploaded_files` (
   `id_user` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_file`),
   KEY `id_user` (`id_user`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=50 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=65 ;
 
 -- --------------------------------------------------------
 
@@ -198,7 +214,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `id_file_avatar` int(11) NOT NULL COMMENT 'avatar image in uploaded_files',
   PRIMARY KEY (`id_user`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=137 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=143 ;
 
 -- --------------------------------------------------------
 
@@ -211,8 +227,9 @@ CREATE TABLE IF NOT EXISTS `users_roles` (
   `id_user` int(11) NOT NULL,
   `id_role` int(11) NOT NULL,
   PRIMARY KEY (`id_user_role`),
-  KEY `id_role` (`id_role`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  KEY `id_role` (`id_role`),
+  KEY `users_roles_ibfk_1` (`id_user`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=18 ;
 
 --
 -- Obmedzenie pre exportované tabuľky
@@ -223,6 +240,13 @@ CREATE TABLE IF NOT EXISTS `users_roles` (
 --
 ALTER TABLE `comments`
   ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Obmedzenie pre tabuľku `favourite_foods`
+--
+ALTER TABLE `favourite_foods`
+  ADD CONSTRAINT `favourite_foods_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `favourite_foods_ibfk_1` FOREIGN KEY (`id_food`) REFERENCES `foods` (`id_food`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Obmedzenie pre tabuľku `foods`
@@ -280,11 +304,3 @@ ALTER TABLE `users_roles`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-INSERT INTO  `food_manager`.`roles` (
-	`id_role` ,
-	`role`
-)
-VALUES 
-	(1 ,  'admin'),
-	(2 ,  'user');

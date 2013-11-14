@@ -42,6 +42,7 @@ class FoodsPresenter extends \BasePresenter
 	public function renderShow($id)
 	{
 		$this->template->food = $this->context->foods_model->getOne($id);
+        $this->template->is_favourite = $this->context->foods_model->isFavourite($this->user->id, $id);
 		
 		if (FALSE === $this->template->food) {
 			throw new \Nette\Application\BadRequestException();
@@ -186,6 +187,30 @@ class FoodsPresenter extends \BasePresenter
 		$this->template->pictures_count = $food->related('foods_pictures')->count();
 		$this->template->food = $food;
 	}
+
+    public function renderCopy($id)
+    {
+        $food = $this->context->foods_model->getOne($id);
+
+        $new_food_data = $food->toArray();
+        unset($new_food_data['id_food']);
+        unset($new_food_data['is_finished']);
+        $new_food = $this->context->foods_model->createOne($new_food_data);
+
+        foreach ($food->related('foods_ingredients') as $food_ingredient) {
+            $this->context->foods_model->addIngredientToFood($new_food->id_food, $food_ingredient->id_ingredient, $food_ingredient->amount);
+        }
+
+        foreach ($food->related('foods_tags') as $food_tag) {
+            $this->context->foods_model->addTagToFood($new_food->id_food, $food_tag->id_tag);
+        }
+
+        foreach ($food->related('foods_pictures') as $picture) {
+            $this->context->foods_pictures_model->addPictureToFood($new_food->id_food, $picture->file);
+        }
+
+        $this->redirect('Foods:edit', array('id' => $new_food->id_food));
+    }
 	
 	/**
 	 * Delete food
@@ -238,4 +263,31 @@ class FoodsPresenter extends \BasePresenter
 		}
 		$this->invalidateControl('pictures-edit');
 	}
+
+    public function handleDuplicateFood($id_food)
+    {
+        try {
+            $food_picture = $this->context->foods_pictures_model->getOne($id_food_picture);
+            $this->context->foods_pictures_model->deleteOne($id_food_picture);
+            $this->context->logger->log('Picture was deleted from food.', $food_picture);
+        }catch (Exception $exception) {
+            $this->presenter->flashMessage('Unable to delete picture.', 'warning');
+            $this->context->logger
+                ->setLogType(Logger\ILogger::TYPE_ERROR)
+                ->log('Unable to delete picture.', $food_picture, 'Error:', $exception->getMessage());
+        }
+        $this->invalidateControl('pictures-edit');
+    }
+
+    public function handleFavourite($id)
+    {
+        $this->context->foods_model->favouriteFood($this->user->id, $id);
+        $this->presenter->invalidateControl('headline');
+    }
+
+    public function handleUnfavourite($id)
+    {
+        $this->context->foods_model->unfavouriteFood($this->user->id, $id);
+        $this->presenter->invalidateControl('headline');
+    }
 }

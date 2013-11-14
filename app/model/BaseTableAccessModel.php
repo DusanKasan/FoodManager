@@ -65,14 +65,15 @@ abstract class BaseTableAccessModel extends BaseModel
 		return $this->database->table($this->table)->where($where);
 	}
 
-	/**
-	 * Update row with $id in table using $data
-	 *
-	 * @param mixed $id
-	 * @param array $data
-	 * 
-	 * @return integer number of rows returned 
-	 */
+    /**
+     * Update row with $id in table using $data
+     *
+     * @param mixed $id
+     * @param array $data
+     *
+     * @throws DatabaseException
+     * @return integer number of rows returned
+     */
 	public function updateOne($id, array $data)
 	{
 		$result = $this->database->table($this->table)->get($id)->update($data);
@@ -83,14 +84,15 @@ abstract class BaseTableAccessModel extends BaseModel
 		
 		return $result;
 	}
-	
-	/**
-	 * Delete row with $id from the table
-	 * 
-	 * @param mixed $id
-	 * 
-	 * @return integer number of rows returned 
-	 */
+
+    /**
+     * Delete row with $id from the table
+     *
+     * @param mixed $id
+     *
+     * @throws DatabaseException
+     * @return integer number of rows returned
+     */
 	public function deleteOne($id)
 	{
 		$result = $this->database->table($this->table)->get($id)->delete();
