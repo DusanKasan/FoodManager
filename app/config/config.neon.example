@@ -6,9 +6,15 @@
 #
 common:
 	parameters:
+		database:
+			driver: mysql
+			host: localhost
+			dbname: food_manager
+			username: root
+			password: r00td3v3l
 
 	php:
-		date.timezone: Europe/Prague
+		date.timezone: Europe/Bratislava
 		# zlib.output_compression: yes
 
 	nette:
@@ -16,17 +22,16 @@ common:
 			errorPresenter: Error
 
 		database:
-			dsn: DSN
-			user: USER
-			password: PASS
+			dsn: '%database.driver%:host=%database.host%;dbname=%database.dbname%'
+			user: %database.username%
+			password: %database.password%
 			reflection: Nette\Database\Reflection\DiscoveredReflection
 
 		session:
 			expiration: 14 days
 
-
 	services:
-		database: @\Nette\Database\Connection
+		database: @nette.database
 		logger: \Logger\FileLogger
 		authenticator: \Authenticator
 		authorizator: \Authorizator
