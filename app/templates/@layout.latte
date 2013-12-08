@@ -48,14 +48,14 @@
 		<section class="top-bar-section">
             <ul class="left">
 				<li class="divider"></li>
-				<li class="has-dropdown"><a n:href="#">Browse</a>
+				<li class="has-dropdown"><a n:href="#">{_}Browse{/_}</a>
 					<ul class="dropdown">
-						<li><a n:href="Foods:list"><i class="icon-list-ul"></i> All food</a></li>
-						<li><a n:href="Foods:categories"><i class="icon-folder-open"></i> Food Categories</a></li>
+						<li><a n:href="Foods:list"><i class="icon-list-ul"></i> {_}All food{/_}</a></li>
+						<li><a n:href="Foods:categories"><i class="icon-folder-open"></i> {_}Food Categories{/_}</a></li>
 						{if $user->isLoggedIn()}
 <!--							<li><a href="#"><i class="icon-star"></i> Favorites</a></li>-->
-                            <li><a n:href="Foods:list id_user => $user->id"><i class="icon-user"></i> My Foods</a></li>
-                            <li><a n:href="Foods:list favourited_by => $user->id"><i class="icon-star"></i> Favourite foods</a></li>
+                            <li><a n:href="Foods:list id_user => $user->id"><i class="icon-user"></i> {_}My Foods{/_}</a></li>
+                            <li><a n:href="Foods:list favourited_by => $user->id"><i class="icon-star"></i> {_}Favourite foods{/_}</a></li>
 						{/if}
 					</ul>
 				</li>
@@ -63,7 +63,7 @@
 				{if $user->isLoggedIn()}
 					<li class="divider"></li>
 					<li>
-						<a n:href="Foods:add"><i class="icon-food icon-large"></i> Add food</a>
+						<a n:href="Foods:add"><i class="icon-food icon-large"></i> {_}Add food{/_}</a>
 					</li>
 				{/if}
 				
@@ -96,11 +96,11 @@
 			{snippet right_menu}
 				{if $user->isLoggedIn()}
 					{if $user->isInRole(\UsersModule\UsersModel::ADMIN)}
-						<li class="has-dropdown"><a n:href="#"><i class="icon-cogs"></i> Administration</a>
+						<li class="has-dropdown"><a n:href="#"><i class="icon-cogs"></i> {_}Administration{/_}</a>
 							<ul class="dropdown">
-								<li><a n:href="Users:manage"><i class="icon-user"></i> User management</a></li>
-								<li><a n:href="Tags:manage"><i class="icon-tags"></i> Tags/Categories management</a></li>
-								<li><a n:href="Ingredients:manage"><i class="icon-beaker"></i> Ingredients management</a></li>
+								<li><a n:href="Users:manage"><i class="icon-user"></i> {_}User management{/_}</a></li>
+								<li><a n:href="Tags:manage"><i class="icon-tags"></i> {_}Tags/Categories management{/_}</a></li>
+								<li><a n:href="Ingredients:manage"><i class="icon-beaker"></i> {_}Ingredients management{/_}</a></li>
 							</ul>
 						</li>
 					{/if}
@@ -108,15 +108,15 @@
 					<li class="has-dropdown">
 						<a href="#"><i class="icon-cog"></i> {$user->identity->username}</a>
 						<ul class="dropdown">
-							<li><a n:href="logout!" class="ajax">Log out</a></li>
+							<li><a n:href="logout!" class="ajax">{_}Log out{/_}</a></li>
 <!--							<li><a href="#">Options</a></li>-->
 						</ul>
 					</li>
 				{/if}
 				
 				{if !$user->isLoggedIn()}
-					<li><a n:href="Users:login"><i class="icon-signin"></i>  Log in</a></li>
-					<li><a n:href="Users:register"><i class="icon-user"></i>  Register</a></li>	
+					<li><a n:href="Users:login"><i class="icon-signin"></i>  {_}Log in{/_}</a></li>
+					<li><a n:href="Users:register"><i class="icon-user"></i>  {_}Register{/_}</a></li>
 				{/if}
 			{/snippet}
 			</ul>

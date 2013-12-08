@@ -27,7 +27,12 @@ class FoodsPresenter extends \BasePresenter
 	{
 		return (($user->isInRole(\Roles::USER) && $user->id == $food->id_user) || $user->isInRole(\Roles::ADMIN));
 	}
-	
+
+    public function beforeRender()
+    {
+        $this->template->setTranslator($this->context->translator);
+    }
+
 	/**
 	 * Redirect to foods list 
 	 */

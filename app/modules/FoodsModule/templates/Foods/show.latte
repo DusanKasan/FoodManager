@@ -11,19 +11,19 @@
 
 {snippet headline section}
 <div class="large-12 columns food-headline">
-			<h3>{ucfirst($food->food)} <span id="food-author">by <a n:href="Foods:list id_user => $food->user->id_user">{$food->user->username}</a></span>
+			<h3>{ucfirst($food->food)} <span id="food-author">{_}by{/_} <a n:href="Foods:list id_user => $food->user->id_user">{$food->user->username}</a></span>
 			{if $hasOwnerPrivilege}
-				<a href="#" title="Delete this food" data-reveal-id="delete-modal" class="action"><i class="icon-trash icon-large"></i></a>
+				<a href="#" title="{_}Delete this food{/_}" data-reveal-id="delete-modal" class="action"><i class="icon-trash icon-large"></i></a>
 				<a class="action" n:href="edit id => $food->id_food"><i class="icon-pencil icon-large"></i></a>
 			{/if}
 			{if $user->isLoggedIn()}
 
                     <a class="action" n:href="copy id => $food->id_food"><i class="icon-copy icon-large"></i></a>
                     {if !$is_favourite}
-                        <a class="action ajax" title="Favourite food" n:href="favourite! id => $food->id_food"><i class="icon-star-empty icon-large"></i></a>
+                        <a class="action ajax" title="{_}Favourite food{/_}" n:href="favourite! id => $food->id_food"><i class="icon-star-empty icon-large"></i></a>
                     {/if}
                     {if $is_favourite}
-                        <a class="action ajax" title="Unfavourite food" n:href="unfavourite! id => $food->id_food"><i class="icon-star icon-large"></i></a>
+                        <a class="action ajax" title="{_}Unfavourite food{/_}" n:href="unfavourite! id => $food->id_food"><i class="icon-star icon-large"></i></a>
                     {/if}
 			{/if}
 			</h3>
@@ -34,7 +34,7 @@
 	{if $food->related('foods_pictures')->count()}
 		<div class="large-4 columns">
 			<div class="row">
-				<h5 data-tooltip class="has-tip show-for-small" title="Showing first picture, swipe in viewer for more"><i class="icon-align-left icon-picture"></i> Pictures ({$food->related('foods_pictures')->count()}):</h5>
+				<h5 data-tooltip class="has-tip show-for-small" title="{_}Showing first picture, swipe in viewer for more{/_}"><i class="icon-align-left icon-picture"></i> {_}Pictures{/_} ({$food->related('foods_pictures')->count()}):</h5>
 				<ul class="clearing-thumbs clearing-feature" data-clearing>
 					{foreach $food->related('foods_pictures') as $picture}
 						<li 
@@ -59,7 +59,7 @@
 	<div class="large-8 columns">
 		
 			<div class="row">
-				<h5><i class="icon-align-left icon-large"></i> Description:</h5>
+				<h5><i class="icon-align-left icon-large"></i> {_}Description:{/_}</h5>
 				<span id="description" class="indented">
 					{!$food->description|nl2br}
 				</span>
@@ -67,7 +67,7 @@
 			</div>
 				
 			<div class="row">
-				<h5><i class="icon-beaker icon-large"></i> Ingredients:</h5>
+				<h5><i class="icon-beaker icon-large"></i> {_}Ingredients:{/_}</h5>
 				<ul class="disc indented">
 				{foreach $food->related('ingredients')->order('id_food_ingredient') as $ingredient}
 					<li>
@@ -80,7 +80,7 @@
 			</div>
 				
 			<div class="row">
-				<h5><i class="icon-tags icon-large"></i> Tags:</h5>
+				<h5><i class="icon-tags icon-large"></i> {_}Tags:{/_}</h5>
 				<span class="indented">
 				{foreach $food->related('tags')->order('id_food_tag') as $tag}
 					<a n:href="Foods:list tags => $tag->id_tag" class="round-marker">{$tag->tag->tag}</a>
@@ -92,9 +92,9 @@
 
 			<div class="row">
 				<h5>
-                    <i class="icon-comments icon-large"></i> Comments:
+                    <i class="icon-comments icon-large"></i> {_}Comments:{/_}
                     {if !$food->related('comments')->count()}
-                        <span class="less-important">No Comments  yet</span>
+                        <span class="less-important">{_}No Comments  yet{/_}</span>
                     {/if}
                 </h5>
 				<div class="large-12 columns">

@@ -32,8 +32,12 @@ $container = $configurator->createContainer();
 $container->router[] = new Route('index.php', 'Homepage:default', Route::ONE_WAY);
 $container->router[] = new Route('<presenter>/<action>[/<id>]', 'Homepage:default');
 
-
+//Setup logger
 $container->logger->setLogFile(WWW_DIR . '/../log/logger.txt');
 $container->logger->setUser($container->user);
+
+//Setup translator
+\T::setTranslator($container->translator);
+
 // Configure and run the application!
 $container->application->run();
