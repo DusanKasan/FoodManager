@@ -26,6 +26,8 @@ class EditFoodForm extends \Nette\Application\UI\Form
     public function __construct($food, $ingredients = NULL)
     {		
         parent::__construct();
+
+        $this->setTranslator(new \Translator());
 		
 		$this->getElementPrototype()->class = "form-big";
 		$this->id_food = $food->id_food;
@@ -39,7 +41,7 @@ class EditFoodForm extends \Nette\Application\UI\Form
 		$food_name_input->getLabelPrototype()->addAttributes(array(
 			'data-tooltip' => '',
 			'class' => 'has-tip',
-			'title' => 'Food name is required!.',
+			'title' => \T::_('Food name is required!'),
 		));
 		
 		$description_input = $this->addTextArea('description', 'Description:');
@@ -47,7 +49,7 @@ class EditFoodForm extends \Nette\Application\UI\Form
 		$description_input->getLabelPrototype()->addAttributes(array(
 			'data-tooltip' => '',
 			'class' => 'has-tip',
-			'title' => 'Food description will reflect new lines as inputed.',
+			'title' => \T::_('Food description will reflect new lines as inputed.'),
 		));
 		
 		//Skurvene nette. Jak to nemoze mat multiple file upload!!!
@@ -59,7 +61,7 @@ class EditFoodForm extends \Nette\Application\UI\Form
 		$image_upload->getLabelPrototype()->addAttributes(array(
 			'data-tooltip' => '',
 			'class' => 'has-tip',
-			'title' => 'You can select multiple files at once!',
+			'title' => \T::_('You can select multiple files at once!'),
 		));
 		
 		$ingredients_container = $this->addContainer('ingredients');
@@ -80,11 +82,11 @@ class EditFoodForm extends \Nette\Application\UI\Form
 		
 		$tags_textarea = $this->addTextArea('tags', 'Tags', 40, 2);
 		$tags_textarea->getControlPrototype()->class = 'textarea tags-input';
-		$tags_textarea->getControlPrototype()->placeholder = 'Add tag by pressing enter...';
+		$tags_textarea->getControlPrototype()->placeholder = \T::_('Add tag by pressing enter...');
 		$tags_textarea->getLabelPrototype()->addAttributes(array(
 			'data-tooltip' => '',
 			'class' => 'has-tip',
-			'title' => 'You can select from existing ingredients or create new ones. New tags are added by pressing enter. They will become wraped in blue bubble to display correct addition.',
+			'title' => \T::_('You can select from existing ingredients or create new ones. New tags are added by pressing enter. They will become wraped in blue bubble to display correct addition.'),
 		));
 
 		$submit = $this->addSubmit('save_food', 'Save food');
@@ -164,7 +166,7 @@ class EditFoodForm extends \Nette\Application\UI\Form
 		} catch (\Exception $exception) {
 			throw $exception;
 			$context->database->rollBack();
-			$this->presenter->flashMessage('Unable to add food. Wrong data supplied. DB Error.');
+			$this->presenter->flashMessage(\T::_('Unable to add food. Wrong data supplied. DB Error.'));
 			$context->logger->setLogType(\Logger\ILogger::TYPE_ERROR)->log('Unable to edit food.', $food_original);
 			$this->presenter->redirect('Foods:edit', $this->id_food);
 		}
@@ -185,11 +187,11 @@ class EditFoodForm extends \Nette\Application\UI\Form
 		
 		$ingredients_textarea = $real_container->addTextArea('ingredient', 'Ingredients:', 40, 1);
 		$ingredients_textarea->getControlPrototype()->class = 'textarea ingredient-input';
-		$ingredients_textarea->getControlPrototype()->placeholder = 'Select ingredient';
+		$ingredients_textarea->getControlPrototype()->placeholder = \T::_('Select ingredient');
 		$ingredients_textarea->getLabelPrototype()->addAttributes(array(
 			'data-tooltip' => '',
 			'class' => 'has-tip',
-			'title' => 'To add new ingredient simply fill the ingredient input box. You can select from existing ingredients or create new ones.',
+			'title' => \T::_('To add new ingredient simply fill the ingredient input box. You can select from existing ingredients or create new ones.'),
 		));
 
 		$ingredients_value = $real_container->addText('amount');

@@ -24,18 +24,19 @@ class AddFoodCommentForm extends \Nette\Application\UI\Form
     public function __construct($food)
     {		
         parent::__construct();
-		
+		$this->setTranslator(new \Translator());
+
 		$this->getElementPrototype()->class = "form-big ajax";
 		$this->food = $food;
 		
 		$comment_input = $this->addText('food_comment', 'Comment:');
 		$comment_input->setRequired('This field is required!');
-		$comment_input->getControlPrototype()->placeholder = 'Comment text...';
+		$comment_input->getControlPrototype()->placeholder = \T::_('Comment text...');
 		$comment_input->getControlPrototype()->value = '';
 		$comment_input->getLabelPrototype()->addAttributes(array(
 			'data-tooltip' => '',
 			'class' => 'has-tip',
-			'title' => 'Food name is required!.',
+			'title' => \T::_('Food name is required!'),
 		));
 
 		$submit = $this->addSubmit('save_comment', 'Send Comment');
