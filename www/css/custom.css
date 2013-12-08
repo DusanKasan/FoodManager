@@ -219,6 +219,10 @@ blockquote:hover>footer>span.hideable{
 	font-size: 0.6em;
 }
 
+.text-content {
+    padding-top: 1em;
+}
+
 /*------------Big screens-----------------*/
 @media all and (min-width: 60em) {
   .clearing-thumbs {

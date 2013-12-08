@@ -51,19 +51,27 @@
 				<li class="has-dropdown"><a n:href="#">Browse</a>
 					<ul class="dropdown">
 						<li><a n:href="Foods:list"><i class="icon-list-ul"></i> All food</a></li>
-						<li><a n:href="Foods:categories"><i class="icon-folder-open"></i> Food Categories</a></li>
+						<li><a n:href="Foods:categories"><i class="icon-folder-open"></i> Kategorie jedal</a></li>
 						{if $user->isLoggedIn()}
 <!--							<li><a href="#"><i class="icon-star"></i> Favorites</a></li>-->
-                            <li><a n:href="Foods:list id_user => $user->id"><i class="icon-user"></i> My Foods</a></li>
-                            <li><a n:href="Foods:list favourited_by => $user->id"><i class="icon-star"></i> Favourite foods</a></li>
+                            <li><a n:href="Foods:list id_user => $user->id"><i class="icon-user"></i> Moje jedla</a></li>
+                            <li><a n:href="Foods:list favourited_by => $user->id"><i class="icon-star"></i> Oblubene jedla</a></li>
 						{/if}
 					</ul>
 				</li>
-				
+
+				<li class="divider"></li>
+                <li class="has-dropdown"><a n:href="#">Pre cukrovkarov</a>
+                    <ul class="dropdown">
+                        <li><a n:href="Diabetes:info"><i class="icon-list-ul"></i> Zakladne informacie</a></li>
+                        <li><a n:href="Diabetes:glycemic"><i class="icon-folder-open"></i> Glykemicke indexy</a></li>
+                    </ul>
+                </li>
+
 				{if $user->isLoggedIn()}
 					<li class="divider"></li>
 					<li>
-						<a n:href="Foods:add"><i class="icon-food icon-large"></i> Add food</a>
+						<a n:href="Foods:add"><i class="icon-food icon-large"></i> Pridat jedlo</a>
 					</li>
 				{/if}
 				
